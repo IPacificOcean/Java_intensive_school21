@@ -42,8 +42,7 @@ public class Program {
          * */
         for (int i = 3; i <= Math.sqrt(number); i += 2) {
             counter++;
-            int x = number % i;
-            if (x == 0) {
+            if ((number % i) == 0) {
                 System.out.println("number of steps = " + counter);
                 System.out.println("false");
                 System.exit(0);
