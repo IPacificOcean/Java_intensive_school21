@@ -9,9 +9,8 @@ public class Program {
         int number;
         int counter_requests = 0;
         int sum_elem;
-        int i = 3;
-        while (i > 0) {
-            System.out.println("input some number");
+        while (true) {
+            System.out.println("Input some number");
             number = scanner.nextInt();
             if (number <= 1) {
                 System.err.println("IllegalArgument");
@@ -22,11 +21,11 @@ public class Program {
             if (isPrime(sum_elem)) {
                 counter_requests++;
             }
-            --i;
+            if (number == 42) {
+                System.out.println("Count of coffee - request - " + counter_requests);
+                System.exit(0);
+            }
         }
-
-        System.out.println("Count of coffee - request - " + counter_requests);
-
     }
 
     public static int sumDigits(int number) {
