@@ -50,7 +50,7 @@ public class Program {
             return !res;
         }
 
-        for (int i = 3; i <= Math.sqrt(number); i += 2) {
+        for (int i = 3; i * i <= number; i += 2) {
             if ((number % i) == 0) {
                 return !res;
             }

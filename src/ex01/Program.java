@@ -40,7 +40,7 @@ public class Program {
         3 x 4 = 12
         )
          * */
-        for (int i = 3; i <= Math.sqrt(number); i += 2) {
+        for (int i = 3; i * i<= number; i += 2) {
             counter++;
             if ((number % i) == 0) {
                 System.out.println("number of steps = " + counter);
