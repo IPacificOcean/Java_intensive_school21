@@ -8,7 +8,7 @@ public class Program {
 
         Scanner scanner = new Scanner(System.in);
         int number;
-        int counter = 0;
+        int counter = 0;// правильно ли считает итерации?
         System.out.println("input some number");
         number = scanner.nextInt();
         if (number <= 1) {
