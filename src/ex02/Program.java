@@ -16,14 +16,17 @@ public class Program {
                 System.err.println("IllegalArgument");
                 System.exit(-1);
             }
+
+            if (number == 42) {
+                System.out.println("Count of coffee - request - " + counter_requests);
+                scanner.close();
+                System.exit(0);
+            }
+
             sum_elem = sumDigits(number);
             System.out.println(isPrime(sum_elem));
             if (isPrime(sum_elem)) {
                 counter_requests++;
-            }
-            if (number == 42) {
-                System.out.println("Count of coffee - request - " + counter_requests);
-                System.exit(0);
             }
         }
     }
