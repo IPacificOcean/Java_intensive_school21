@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
-//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; HHello, worl!
+//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; HHello, worl!   GACDDDAABBEEEEF
 
         Scanner scaner = new Scanner(System.in);
         String str = scaner.nextLine();
@@ -25,7 +25,8 @@ public class Program {
             charCount[c]++;
         }
         int length = getLenOnlyArrayOfCharacters(whatIsSimbol);
-        sort(whatIsSimbol, charCount, length);
+        sort(whatIsSimbol, charCount, length, true);
+        sort(whatIsSimbol, charCount, length, false);
 
         //Print//
         for (int i = 0; i < charCount.length; i++) {
@@ -37,22 +38,62 @@ public class Program {
             System.out.print(whatIsSimbol[i] + " ");
         }
     }
-    static void sort(char[] input, int[] charCount, int length) {
+
+    static void sort(char[] input, int[] charCount, int length, boolean lex_sort) {
         boolean swapped = false;
-        for (int i = 0; i < length; ++i) {
+        for (int i = 0; i < length - 1; ++i) {
             swapped = false;
             for (int j = 0; j < length - i - 1; ++j) {
-                if (charCount[input[j]] < charCount[input[j + 1]]) {
-                char temp = input[j];
-                    input[j] = input[j + 1];
-                    input[j + 1] = temp;
-                    swapped = true;
+                if (lex_sort) {
+                    if (input[j] >input[j + 1]) {
+                        swapped = swap(input, j);
+                    }
+                } else {
+                    if (charCount[input[j]] < charCount[input[j + 1]]) {
+                        swapped = swap(input, j);
+                    }
                 }
             }
             if (!swapped) {
                 break;
             }
         }
+    }
+
+    static void sortByCount(char[] input, int[] charCount, int length) {
+        boolean swapped = false;
+        for (int i = 0; i < length - 1; ++i) {
+            swapped = false;
+            for (int j = 0; j < length - i - 1; ++j) {
+                    if (charCount[input[j]] < charCount[input[j + 1]]) {
+                        swapped = swap(input, j);
+                    }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+    static void lexsSort(char[] input, int length) {
+        boolean swapped = false;
+        for (int i = 0; i < length - 1; ++i) {
+            swapped = false;
+            for (int j = 0; j < length - i - 1; ++j) {
+                    if (input[j] >input[j + 1]) {
+                        swapped = swap(input, j);
+                    }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+
+    static boolean swap(char[] input, int j) {
+        char temp = input[j];
+        input[j] = input[j + 1];
+        input[j + 1] = temp;
+        return  true;
     }
 
     static int getLenOnlyArrayOfCharacters(char[] input) {
