@@ -11,31 +11,31 @@ public class Program {
         scaner.close();
 
         char[] input = str.toCharArray();
-        int[] charCount = new int[65535];
+        int[] symbolCount = new int[65535];
         char[] whatIsSymbol = new char[65535];
         int index = 0;
         for (int i = 0; i < str.length(); i++) {
             char c = input[i];
-            if (charCount[c] == 0) {
+            if (symbolCount[c] == 0) {
                 whatIsSymbol[index] = c;
                 ++index;
             }
-            charCount[c]++;
+            symbolCount[c]++;
         }
         int length = getOnlyLenArrayOfCharacters(whatIsSymbol);
-        sort(whatIsSymbol, charCount, length, true);
-        sort(whatIsSymbol, charCount, length, false);
+        sort(whatIsSymbol, symbolCount, length, true);
+        sort(whatIsSymbol, symbolCount, length, false);
 
         //Print//
         double count_sharps = 10;
-        double coofficient = charCount[whatIsSymbol[0]] / count_sharps;
+        double coofficient = symbolCount[whatIsSymbol[0]] / count_sharps;
 
         System.out.println(coofficient);
         for (int i = 0; i < 10; ++i){
             if (whatIsSymbol[i] == 0) {
                 break;
             }
-            System.out.print(charCount[whatIsSymbol[i]] + ":" + (int)(charCount[whatIsSymbol[i]] / coofficient) + " ");
+            System.out.print(symbolCount[whatIsSymbol[i]] + ":" + (int)(symbolCount[whatIsSymbol[i]] / coofficient) + " ");
         }
             System.out.println();
 
@@ -84,9 +84,6 @@ public class Program {
         return length;
     }
 
-//    static double coefficient() {
-//
-//    }
 }
 
 
