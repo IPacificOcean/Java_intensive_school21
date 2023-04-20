@@ -27,12 +27,15 @@ public class Program {
         sort(whatIsSymbol, charCount, length, false);
 
         //Print//
+        double count_sharps = 10;
+        double coofficient = charCount[whatIsSymbol[0]] / count_sharps;
 
+        System.out.println(coofficient);
         for (int i = 0; i < 10; ++i){
             if (whatIsSymbol[i] == 0) {
                 break;
             }
-            System.out.print(charCount[whatIsSymbol[i]] + " ");
+            System.out.print(charCount[whatIsSymbol[i]] + ":" + (int)(charCount[whatIsSymbol[i]] / coofficient) + " ");
         }
             System.out.println();
 
@@ -80,6 +83,10 @@ public class Program {
         }
         return length;
     }
+
+//    static double coefficient() {
+//
+//    }
 }
 
 
