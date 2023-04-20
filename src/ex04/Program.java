@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
-//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; SHello, worlds!
+//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; HHello, worl!
 
         Scanner scaner = new Scanner(System.in);
         String str = scaner.nextLine();
@@ -24,7 +24,10 @@ public class Program {
             }
             charCount[c]++;
         }
+        int length = getLenOnlyArrayOfCharacters(whatIsSimbol);
+        sort(whatIsSimbol, charCount, length);
 
+        //Print//
         for (int i = 0; i < charCount.length; i++) {
             if (charCount[i] > 0) {
                 System.out.println((char) i + ": " + charCount[i]);
@@ -34,8 +37,36 @@ public class Program {
             System.out.print(whatIsSimbol[i] + " ");
         }
     }
-    static void sort(int[] input) {
+    static void sort(char[] input, int[] charCount, int length) {
+        boolean swapped = false;
+        for (int i = 0; i < length; ++i) {
+            swapped = false;
+            for (int j = 0; j < length - i - 1; ++j) {
+                if (charCount[input[j]] < charCount[input[j + 1]]) {
+                char temp = input[j];
+                    input[j] = input[j + 1];
+                    input[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+
+    static int getLenOnlyArrayOfCharacters(char[] input) {
+        int length = 0;
+        for (char c : input) {
+            if (c == 0) {
+                break;
+            }
+            length++;
+        }
+        return length;
     }
 }
+
+
 
 
