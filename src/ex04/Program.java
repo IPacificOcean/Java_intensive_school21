@@ -43,6 +43,9 @@ public class Program {
         for (int i = 0; whatIsSymbol[i] != 0; i++) {
             System.out.print(whatIsSymbol[i] + " ");
         }
+        System.out.println();
+        printHistogram();
+
     }
 
 
@@ -82,6 +85,43 @@ public class Program {
             length++;
         }
         return length;
+    }
+
+    static void printHistogram(){
+//        double count_sharps = 10;
+//        double coofficient = symbolCount[whatIsSymbol[0]] / count_sharps;
+        double coofficient = 3.6;
+        int a = 36;
+        int b = 20;
+        int с = 8;
+        int[] num = new int[3];
+        num[0] = a;
+        num[1] = b;
+        num[2] = с;
+
+//        for (int i = 0; i < 2; ++i) {
+//            System.out.printf("%-3d", num[i]);
+//        }
+//        System.out.println();
+//            for (int j = 0; j < 10; ++j) {
+//                System.out.printf("%-3c\n", '#');
+//            }
+//        int[][] arr = {{' ', ' ',' ',' ', ' ',' ',' ', ' ',' ',' ',' ' },
+//                {' ', ' ',' ',' ', ' ',' ',' ', ' ',' ',' ',' ' }};
+
+
+        for (int i = 0; i < 3; i++) {
+            int count_sharps = (int)(num[i] / coofficient);
+
+            for (int j = 0; j < count_sharps; j++) {
+                System.out.print("#");
+//                arr[i][j] = '#';
+            }
+//            arr[i][count_sharps] = num[i];
+
+            System.out.printf("%-3d", num[i]);
+            System.out.println();
+        }
     }
 
 }
