@@ -92,68 +92,44 @@ public class Program {
 //        double coofficient = symbolCount[whatIsSymbol[0]] / count_sharps;
         double coofficient = 3.6;
 
-        int num[] = {36, 36, 36, 36, 0, 0, 0, 0, 0, 0};
+        int num[] = {36, 36, 20, 10, 0, 0, 0, 0, 0, 0};
 
-
+// первый блок печатает макс колл-во в одной строке
         for (int i = 0; i < 10; ++i) {
             if (num[i] == num[0]) {
                 System.out.printf("%-3d", num[i]);
             }
         }
-//        System.out.println();
-//            for (int j = 0; j < 10; ++j) {
-//                System.out.printf("%-3c\n", '#');
-//            }
-
-        for (int i = 0; i < 10; i++) {
-            int count_sharps = (int)(num[i] / coofficient);
-
-            for (int j = 0; j < count_sharps; j++) {
-                System.out.print("#");
-            }
-
-            System.out.printf("%-3d", num[i]);
-            System.out.println();
-        }
-
-//        for (int i = 0; i < 2; i++) {
+        System.out.println();
+// второй блок печатает шарп и колл-во в одной строке
+        for (int i = 10; i > 0; i--) {
 //            int count_sharps = (int)(num[i] / coofficient);
-//
-//            for (int j = 0; j < count_sharps; j++) {
-//                System.out.print("#");
-//            }
-//
+
+            for (int j = 0; j < 10; j++) {
+                if (num[j] / coofficient >= i) {
+                System.out.printf("%-3c", '#');
+                }
+                if (num[j] / coofficient == (i-1)) {
+//                    if (num[j] / coofficient != 0) {
+                        System.out.printf("%-3d", num[j]);
+//                    }
+                }
+            }
+            System.out.println();
+
 //            System.out.printf("%-3d", num[i]);
 //            System.out.println();
-//        }
+        }
+
+        for (int i = 0; i < 10; ++i) {
+            System.out.printf("%-3d",num[i]);
+//
+//            System.out.print(whatIsSymbol[i] + " ");
+        }
+        System.out.println();
+
     }
 
-//    public static void paintTable(char[] chars, int[] counts) {
-//        int d = counts[0];
-//        System.out.println();
-//        System.out.println();
-//
-//        for (int i = 0; i < 10; i++) {
-//            if (counts[i] == d)
-//                System.out.print(counts[i] + "\t");
-//        }
-//        System.out.println();
-//        for (int i = 10; i > 0; i--) {
-//            for (int j = 0; j < 10; j++) {
-//                if (counts[j] * 10 / d >= i)
-//                    System.out.print("#\t");
-//                if (counts[j] * 10 / d == i - 1) {
-//                    if (counts[j] != 0) {
-//                        System.out.print(counts[j] + "\t");
-//                    }
-//                }
-//            }
-//            System.out.println();
-//        }
-//        for (int i = 0; i < 10; i++) {
-//            System.out.print(chars[i] + "\t");
-//        }
-//    }
 
 }
 
