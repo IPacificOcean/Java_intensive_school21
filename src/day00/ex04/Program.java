@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
-//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; HHello, worl!   GACDDDAABBEEEEF aaaaaaaasssssssddddddfffffgggghhhjjklliiii
-
+//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; HHello, worl!   GACDDDAABBEEEEF aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssddddddfffffgggghhhjjklliiii
+//        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         Scanner scaner = new Scanner(System.in);
         String str = scaner.nextLine();
         scaner.close();
@@ -21,6 +21,10 @@ public class Program {
                 ++index;
             }
             symbolCount[c]++;
+            if (symbolCount[c] > 999) {
+                System.err.println("IllegalArgument\nThe maximum number of occurrences of the character is 999");
+                System.exit(-1);
+            }
         }
         int length = getOnlyLenArrayOfCharacters(whatIsSymbol);
         sort(whatIsSymbol, symbolCount, length, true);
@@ -28,7 +32,6 @@ public class Program {
 
         //Print//
         printHistogram(whatIsSymbol, symbolCount, length);
-
     }
 
     static void sort(char[] input, int[] charCount, int length, boolean lex_sort) {
@@ -71,11 +74,16 @@ public class Program {
 
     static void printHistogram(char[] simbols, int[] charCount, int length){
         int len = length <= 10 ? length : 10;
+        if (len == 0){
+            System.exit(0);
+        }
         double count_sharps = 10;
+// коэффициент для массштабирования
         double coofficient = charCount[simbols[0]] / count_sharps;
 
+
 // первый блок печатает макс колл-во в одной строке
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < len; ++i) {
             if (charCount[simbols[i]] == charCount[simbols[0]]) {
                 System.out.printf("%-3d", charCount[simbols[i]]);
             }
@@ -83,8 +91,7 @@ public class Program {
         System.out.println();
 // второй блок печатает шарп и колл-во в одной строке
         for (int i = 10; i > 0; i--) {
-
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < len; j++) {
                 if ((int)(charCount[simbols[j]] / coofficient) >= i) {
                 System.out.printf("%-3c", '#');
                 }
@@ -100,7 +107,6 @@ public class Program {
 
         }
     }
-
 }
 
 
