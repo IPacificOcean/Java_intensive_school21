@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
-//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; HHello, worl!   GACDDDAABBEEEEF
+//        String str = "ABCAJHNXATGDBDGJSAMJHCGDMJH"; HHello, worl!   GACDDDAABBEEEEF aaaaaaaasssssssddddddfffffgggghhhjjklliiii
 
         Scanner scaner = new Scanner(System.in);
         String str = scaner.nextLine();
@@ -27,27 +27,9 @@ public class Program {
         sort(whatIsSymbol, symbolCount, length, false);
 
         //Print//
-//        double count_sharps = 10;
-//        double coofficient = symbolCount[whatIsSymbol[0]] / count_sharps;
-
-//        System.out.println(coofficient);
-//        for (int i = 0; i < 10; ++i){
-//            if (whatIsSymbol[i] == 0) {
-//                break;
-//            }
-//            System.out.print(symbolCount[whatIsSymbol[i]] + ":" + (int)(symbolCount[whatIsSymbol[i]] / coofficient) + " ");
-//        }
-//            System.out.println();
-//
-//
-//        for (int i = 0; whatIsSymbol[i] != 0; i++) {
-//            System.out.print(whatIsSymbol[i] + " ");
-//        }
-//        System.out.println();
         printHistogram(whatIsSymbol, symbolCount, length);
 
     }
-
 
     static void sort(char[] input, int[] charCount, int length, boolean lex_sort) {
         for (int i = 0; i < length - 1; ++i) {
@@ -88,11 +70,9 @@ public class Program {
     }
 
     static void printHistogram(char[] simbols, int[] charCount, int length){
+        int len = length <= 10 ? length : 10;
         double count_sharps = 10;
         double coofficient = charCount[simbols[0]] / count_sharps;
-//        double coofficient = 3.6;
-
-//        int num[] = {36, 33, 20, 10, 0, 0, 0, 0, 0, 0};
 
 // первый блок печатает макс колл-во в одной строке
         for (int i = 0; i < 10; ++i) {
@@ -109,26 +89,17 @@ public class Program {
                 System.out.printf("%-3c", '#');
                 }
                 if ((int)(charCount[simbols[j]] / coofficient) == (i-1)) {
-                    if ((int)(charCount[simbols[j]] / coofficient) != 0) {
                         System.out.printf("%-3d", charCount[simbols[j]]);
-                    }
                 }
             }
             System.out.println();
-
-//            System.out.printf("%-3d", num[i]);
-//            System.out.println();
         }
 // третий блок печатает символы в одной строке
-        for (int i = 0; i < length; ++i) {
+        for (int i = 0; i < len ; ++i) {
             System.out.printf("%-3c",simbols[i]);
-//
-//            System.out.print(whatIsSymbol[i] + " ");
+
         }
-//        System.out.println();
-
     }
-
 
 }
 
