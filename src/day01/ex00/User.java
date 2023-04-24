@@ -7,6 +7,17 @@ public class User {
    private String name;
    private long balance;
 
+
+   User (int uid, String name, long balance ) {
+      if (uid <= 0) {
+         System.err.println("IllegalArgument uid");
+         System.exit(-1);
+      }
+      this.uid = uid;
+      this.name = name;
+      this.balance = balance;
+   }
+
    public void setUid(int uid) {
       if (uid <= 0) {
          System.err.println("IllegalArgument uid");
