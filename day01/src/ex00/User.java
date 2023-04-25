@@ -13,9 +13,18 @@ public class User {
          System.err.println("IllegalArgument uid");
          System.exit(-1);
       }
+      if (balance < 0) {
+         System.err.println("IllegalArgument balance");
+         System.exit(-1);
+      }
       this.uid = uid;
       this.name = name;
       this.balance = balance;
+   }
+
+   @Override
+   public String toString() {
+      return name + " " + balance;
    }
 
    public void setUid(int uid) {
