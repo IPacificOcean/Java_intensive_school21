@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class Transaction {
     enum transferCategory {debits, credits}
-    transferCategory category;
 
     Transaction(User recipient, User sender, long transfer_amount, transferCategory category) {
         if (category.equals(transferCategory.credits) && transfer_amount >= 0){
@@ -69,8 +68,10 @@ public class Transaction {
     public transferCategory getCategory() {
         return category;
     }
+
     private UUID tid;
     private User recipient;
     private User sender;
     private long transfer_amount;
+    private transferCategory category;
 }
