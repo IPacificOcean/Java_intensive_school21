@@ -5,17 +5,17 @@ public class UserArrayList implements UserList {
     @Override
     public void add(User user) {
         if (size_ == capacity_) {
-            array = reserve();
+            array_ = reserve();
         }
-        array[size_] = user;
+        array_[size_] = user;
         ++size_;
     }
 
     @Override
     public User retrieveUserById(int id) {
         for (int i = 0; i < size_; i++) {
-            if (array[i].getId() == id) {
-                return array[i];
+            if (array_[i].getId() == id) {
+                return array_[i];
             }
         }
         throw new UserNotFoundException("User Not Found");
@@ -23,7 +23,7 @@ public class UserArrayList implements UserList {
 
     @Override
     public User retrieveUserByIndex(int index) {
-        return array[index];
+        return array_[index];
     }
 
     @Override
@@ -38,11 +38,15 @@ public class UserArrayList implements UserList {
     private User[] reserve() {
         capacity_ *= 2;
         User[] tempArr = new User[capacity_];
-        System.arraycopy(array, 0, tempArr, 0, size_);
+        System.arraycopy(array_, 0, tempArr, 0, size_);
+        // вариант без arraycopy
+//        for (int i = 0; i < size_; i++) {
+//            tempArr[i] = array[i];
+//        }
         return tempArr;
     }
 
     private int size_ = 0;
-    private int capacity_ = 10;
-    private User[] array = new User[capacity_];
+    private int capacity_ = 2;
+    private User[] array_ = new User[capacity_];
 }
