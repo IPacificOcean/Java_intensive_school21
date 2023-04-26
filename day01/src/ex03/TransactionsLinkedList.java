@@ -21,6 +21,30 @@ public class TransactionsLinkedList implements TransactionsList{
 
     @Override
     public void removeTransaction(UUID id) {
+        Transaction l = head_;
+
+        for (int i = 0; i < size_; ++i) {
+//            if (l.next == null && l.prev != null) {
+//                l.prev.next = null;
+//            }
+            if (l.getTid().equals(id)) {
+                if (head_ == tail_) {
+                    head_ = tail_ = null;
+                } else if (l.next == null) {
+                    tail_ = l.prev;
+                    tail_.next = null;
+                } else if (l.prev == null) {
+                    head_ = l.next;
+                    head_.prev = null;
+                } else {
+                    l.prev.next = l.next;
+                    l.next.prev = l.prev;
+                }
+                --size_;
+                break;
+            }
+            l = l.next;
+        }
 
     }
 
@@ -41,10 +65,16 @@ public class TransactionsLinkedList implements TransactionsList{
         return size_;
     }
 
-    public Transaction hasNext() {
-        Transaction transaction = head_;
-            transaction = transaction.next;
-        return transaction;
+    private boolean equals(UUID id) {
+        boolean eq = false;
+        Transaction l = head_;
+        for (int i = 0; i < size_; ++i) {
+            l = l.next;
+            if (l.next.getTid().equals(id)) {
+                eq = true;
+            }
+        }
+        return eq;
     }
 
 //    if (index < (size >> 1)) {

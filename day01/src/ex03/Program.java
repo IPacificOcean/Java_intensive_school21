@@ -23,10 +23,10 @@ public class Program {
         tlist.addTransaction(transaction2);
         tlist.addTransaction(transaction3);
 //        System.out.println(tlist.getHead_().prev.prev);
-        System.out.println(tlist.getHead_().toString());
-        System.out.println(tlist.getHead_().next.toString());
-        System.out.println(tlist.getHead_().next.next.toString());
-        System.out.println(tlist.getTail_().prev.toString());
+//        System.out.println(tlist.getHead_().toString());
+//        System.out.println(tlist.getHead_().next.toString());
+//        System.out.println(tlist.getHead_().next.next.toString());
+//        System.out.println(tlist.getTail_().prev.toString());
 //        LinkedList<String> list = new LinkedList<String>();
         System.out.println(tlist.getSize_());
         System.out.println();
@@ -35,6 +35,16 @@ public class Program {
             System.out.println(l);
             l = l.next;
         }
+
+
+        tlist.removeTransaction(transaction3.getTid());
+        System.out.println();
+        l = tlist.getHead_();
+        for (int i = 0; i < tlist.getSize_(); ++i) {
+            System.out.println(l);
+            l = l.next;
+        }
+        System.out.println(tlist.getSize_());
 
 
 
