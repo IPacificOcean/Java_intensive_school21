@@ -19,6 +19,7 @@ public class Transaction {
         this.recipient = recipient;
         this.sender = sender;
         this.transfer_amount = transfer_amount;
+        this.category = category;
     }
 
     public void setTid(UUID tid) {
@@ -69,9 +70,16 @@ public class Transaction {
         return category;
     }
 
+    @Override
+    public String toString() {
+        return "tid: " + getTid() + ", recipient: " + getRecipient() + ", sender: " + getSender() + ", transfer_amount: " + getTransfer_amount() + ", transferCategory: " + getCategory();
+    }
+
     private UUID tid;
     private User recipient;
     private User sender;
     private long transfer_amount;
     private transferCategory category;
+    Transaction next = null;
+    Transaction prev = null;
 }

@@ -24,6 +24,7 @@ public class Transaction {
         this.recipient = recipient;
         this.sender = sender;
         this.transfer_amount = transfer_amount;
+        this.category = category;
     }
 
     public void setTid(UUID tid) {

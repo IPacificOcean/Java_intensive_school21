@@ -5,6 +5,7 @@ public class User {
     private final int id;
     private String name;
     private long balance;
+//    private TransactionsList myTransaction;
 
     public  User(String name, long balance) {
         if (balance < 0) {
