@@ -17,9 +17,9 @@ public class Program {
         TransactionsLinkedList tlist = new TransactionsLinkedList();
         tlist.addTransaction(transaction1);
         tlist.addTransaction(transaction2);
-        System.out.println(tlist.getHead_().prev.prev);
-        System.out.println(tlist.getHead_().prev.toString());
+//        System.out.println(tlist.getHead_().prev.prev);
         System.out.println(tlist.getHead_().toString());
+//        System.out.println(tlist.getHead_().next.toString());
 
 
 

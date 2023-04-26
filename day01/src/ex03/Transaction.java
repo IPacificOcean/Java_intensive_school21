@@ -80,6 +80,6 @@ public class Transaction {
     private User sender;
     private long transfer_amount;
     private transferCategory category;
-    Transaction next = null;
-    Transaction prev = null;
+    Transaction next;
+    Transaction prev;
 }

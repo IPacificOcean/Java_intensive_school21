@@ -5,12 +5,16 @@ import java.util.UUID;
 public class TransactionsLinkedList implements TransactionsList{
     @Override
     public void addTransaction(Transaction transaction) {
-
-        if (head_ != null) {
-            head_.next = transaction;
-            transaction.prev= head_;
+        transaction.next = tail_;
+        transaction.prev = null;
+        if (tail_ != null) {
+            tail_.prev = transaction;
         }
-        head_ = transaction;
+        if (head_ == null) {
+            head_ = transaction;
+        }
+
+        tail_ = transaction;
     }
 
     @Override
@@ -32,6 +36,7 @@ public class TransactionsLinkedList implements TransactionsList{
     }
 
     private Transaction head_ = null;
+    private Transaction tail_ = null;
 }
 
 
