@@ -12,31 +12,12 @@ public class Transaction {
     Transaction prev;
     enum transferCategory {debits, credits}
 
-    Transaction(User recipient, User sender, long transfer_amount, transferCategory category) {
-        if (category.equals(transferCategory.credits) && transfer_amount >= 0){
-            System.err.println("IllegalArgument transfer_amount");
-            System.exit(-1);
-        }
-        if (category.equals(transferCategory.debits) && transfer_amount < 0){
-            System.err.println("IllegalArgument transfer_amount");
-            System.exit(-1);
-        }
-
-        this.tid = UUID.randomUUID();
-        this.recipient = recipient;
-        this.sender = sender;
-        this.transfer_amount = transfer_amount;
-        this.category = category;
-    }
-
     Transaction(User recipient, User sender, long transfer_amount, transferCategory category, UUID tid) {
         if (category.equals(transferCategory.credits) && transfer_amount >= 0){
-            System.err.println("IllegalArgument transfer_amount");
-            System.exit(-1);
+            throw new IllegalTransactionException("Illegal Transaction Exception");
         }
         if (category.equals(transferCategory.debits) && transfer_amount < 0){
-            System.err.println("IllegalArgument transfer_amount");
-            System.exit(-1);
+            throw new IllegalTransactionException("Illegal Transaction Exception");
         }
 
         this.tid = tid;
@@ -60,12 +41,10 @@ public class Transaction {
 
     public void setTransfer_amount(long transfer_amount) {
         if (category.equals(transferCategory.credits) && transfer_amount >= 0){
-            System.err.println("IllegalArgument transfer_amount");
-            System.exit(-1);
+            throw new IllegalTransactionException("Illegal Transaction Exception");
         }
         if (category.equals(transferCategory.debits) && transfer_amount < 0){
-            System.err.println("IllegalArgument transfer_amount");
-            System.exit(-1);
+            throw new IllegalTransactionException("Illegal Transaction Exception");
         }
         this.transfer_amount = transfer_amount;
     }

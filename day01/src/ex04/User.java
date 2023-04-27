@@ -5,12 +5,11 @@ public class User {
     private final int id;
     private String name;
     private long balance;
-    private TransactionsList myTransaction = new TransactionsLinkedList();
+    private TransactionsLinkedList myTransactions = new TransactionsLinkedList();
 
     public  User(String name, long balance) {
         if (balance < 0) {
-            System.err.println("IllegalArgument balance");
-            System.exit(-1);
+            throw new IllegalTransactionException("Illegal Transaction Exception");
         }
         this.id = UserIdsGenerator.getInstance().generateId();
         this.name = name;
@@ -28,14 +27,13 @@ public class User {
 
     public void setBalance(long balance) {
         if (balance < 0) {
-            System.err.println("IllegalArgument balance");
-            System.exit(-1);
+            throw new IllegalTransactionException("Illegal Transaction Exception");
         }
         this.balance = balance;
     }
 
     public void addTransaction(Transaction transaction) {
-        myTransaction.addTransaction(transaction);
+        myTransactions.addTransaction(transaction);
     }
 
     public int getId(){
@@ -50,7 +48,7 @@ public class User {
         return balance;
     }
 
-    public TransactionsList getMyTransaction() {
-        return myTransaction;
+    public TransactionsLinkedList getMyTransactions() {
+        return myTransactions;
     }
 }
