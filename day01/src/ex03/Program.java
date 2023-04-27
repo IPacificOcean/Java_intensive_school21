@@ -18,42 +18,43 @@ public class Program {
         Transaction transaction2 = new Transaction(user2, user, transfer_amount, debits);
         transfer_amount = 1500;
         Transaction transaction3 = new Transaction(user3, user, transfer_amount, debits);
+        Transaction transaction4 = new Transaction(user, user3, transfer_amount, debits);
+
         TransactionsLinkedList tlist = new TransactionsLinkedList();
         tlist.addTransaction(transaction1);
         tlist.addTransaction(transaction2);
         tlist.addTransaction(transaction3);
-//        System.out.println(tlist.getHead_().prev.prev);
-//        System.out.println(tlist.getHead_().toString());
-//        System.out.println(tlist.getHead_().next.toString());
-//        System.out.println(tlist.getHead_().next.next.toString());
-//        System.out.println(tlist.getTail_().prev.toString());
-//        LinkedList<String> list = new LinkedList<String>();
-        System.out.println(tlist.getSize_());
-        System.out.println();
-        Transaction l = tlist.getHead_();
-        for (int i = 0; i < tlist.getSize_(); ++i) {
-            System.out.println(l);
-            l = l.next;
-        }
 
+        System.out.println("Добавление:");
+        print(tlist);
 
         tlist.removeTransaction(transaction3.getTid());
         System.out.println();
-        l = tlist.getHead_();
-        for (int i = 0; i < tlist.getSize_(); ++i) {
+        System.out.println("Удаление:");
+        print(tlist);
+        System.out.println();
+
+        Transaction[] arr = tlist.toArray();
+        System.out.println("Массив:");
+        for (Transaction transaction : arr) {
+            System.out.println(transaction);
+        }
+        System.out.println();
+
+        System.out.println("Исключение:");
+        try {
+            tlist.removeTransaction(transaction4.getTid());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    static void print(TransactionsLinkedList list) {
+        Transaction l = list.getHead_();
+        for (int i = 0; i < list.getSize_(); ++i) {
             System.out.println(l);
             l = l.next;
         }
-        System.out.println(tlist.getSize_());
-
-
-
-
-//        try {
-//            arr.retrieveUserById(11);
-//        } catch (RuntimeException e) {
-//            System.out.println(e.getMessage());
-//        }
     }
 }
                                                                                                                                                                                                                                                                                                                                   

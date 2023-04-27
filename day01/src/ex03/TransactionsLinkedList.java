@@ -1,5 +1,7 @@
 package ex03;
 
+import ex02.UserNotFoundException;
+
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -22,11 +24,9 @@ public class TransactionsLinkedList implements TransactionsList{
     @Override
     public void removeTransaction(UUID id) {
         Transaction l = head_;
+        boolean eq = false;
 
         for (int i = 0; i < size_; ++i) {
-//            if (l.next == null && l.prev != null) {
-//                l.prev.next = null;
-//            }
             if (l.getTid().equals(id)) {
                 if (head_ == tail_) {
                     head_ = tail_ = null;
@@ -41,16 +41,26 @@ public class TransactionsLinkedList implements TransactionsList{
                     l.next.prev = l.prev;
                 }
                 --size_;
+                eq = true;
                 break;
             }
             l = l.next;
         }
-
+        if (!eq) {
+            throw new TransactionNotFoundException("Transaction Not Found");
+        }
     }
 
     @Override
     public Transaction[] toArray() {
-        return new Transaction[0];
+       Transaction[] arr = new Transaction[size_];
+        Transaction l = head_;
+        for (int i = 0; i < size_; ++i) {
+            arr[i] = l;
+            l = l.next;
+
+        }
+        return arr;
     }
 
     public Transaction getHead_() {
@@ -64,30 +74,6 @@ public class TransactionsLinkedList implements TransactionsList{
     public int getSize_() {
         return size_;
     }
-
-    private boolean equals(UUID id) {
-        boolean eq = false;
-        Transaction l = head_;
-        for (int i = 0; i < size_; ++i) {
-            l = l.next;
-            if (l.next.getTid().equals(id)) {
-                eq = true;
-            }
-        }
-        return eq;
-    }
-
-//    if (index < (size >> 1)) {
-//        LinkedList.Node<E> x = first;
-//        for (int i = 0; i < index; i++)
-//            x = x.next;
-//        return x;
-//    } else {
-//        LinkedList.Node<E> x = last;
-//        for (int i = size - 1; i > index; i--)
-//            x = x.prev;
-//        return x;
-//    }
 
     private Transaction head_ = null;
     private Transaction tail_ = null;
