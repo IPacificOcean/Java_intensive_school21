@@ -1,11 +1,11 @@
-package ex03;
+package ex04;
 
 
 public class User {
     private final int id;
     private String name;
     private long balance;
-    private TransactionsList myTransaction;
+    private TransactionsList myTransaction = new TransactionsLinkedList();
 
     public  User(String name, long balance) {
         if (balance < 0) {
@@ -34,6 +34,10 @@ public class User {
         this.balance = balance;
     }
 
+    public void addTransaction(Transaction transaction) {
+        myTransaction.addTransaction(transaction);
+    }
+
     public int getId(){
         return id;
     }
@@ -44,5 +48,9 @@ public class User {
 
     public long getBalance() {
         return balance;
+    }
+
+    public TransactionsList getMyTransaction() {
+        return myTransaction;
     }
 }
