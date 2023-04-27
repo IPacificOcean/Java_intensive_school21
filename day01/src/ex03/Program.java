@@ -1,8 +1,6 @@
 package ex03;
 
 
-import java.util.LinkedList;
-
 import static ex03.Transaction.transferCategory.debits;
 import static ex03.Transaction.transferCategory.credits;
 

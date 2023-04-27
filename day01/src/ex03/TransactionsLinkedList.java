@@ -1,23 +1,22 @@
 package ex03;
 
-import ex02.UserNotFoundException;
 
-import java.util.LinkedList;
 import java.util.UUID;
 
 public class TransactionsLinkedList implements TransactionsList{
+    private Transaction head_ ;
+    private Transaction tail_;
+    private int size_;
+
     @Override
     public void addTransaction(Transaction transaction) {
-        transaction.next = null;
-        transaction.prev = tail_;
-        if (tail_ != null) {
+        if (head_ != null) {
             tail_.next = transaction;
+            transaction.prev = tail_;
+            tail_ = transaction;
+        } else {
+            head_ = tail_ = transaction;
         }
-        if (head_ == null) {
-            head_ = transaction;
-        }
-
-        tail_ = transaction;
         ++size_;
     }
 
@@ -25,8 +24,7 @@ public class TransactionsLinkedList implements TransactionsList{
     public void removeTransaction(UUID id) {
         Transaction l = head_;
         boolean eq = false;
-
-        for (int i = 0; i < size_; ++i) {
+        while (l != null) {
             if (l.getTid().equals(id)) {
                 if (head_ == tail_) {
                     head_ = tail_ = null;
@@ -58,7 +56,6 @@ public class TransactionsLinkedList implements TransactionsList{
         for (int i = 0; i < size_; ++i) {
             arr[i] = l;
             l = l.next;
-
         }
         return arr;
     }
@@ -75,9 +72,6 @@ public class TransactionsLinkedList implements TransactionsList{
         return size_;
     }
 
-    private Transaction head_ = null;
-    private Transaction tail_ = null;
-    private int size_ = 0;
 }
 
 
