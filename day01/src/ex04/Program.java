@@ -56,6 +56,9 @@ public class Program {
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
+
+        Transaction[] arr1 = tService.getNotValidTransaction();
+        System.out.println("arr: " + arr1[0]);
     }
 }
                                                                                                                                                                                                                                                                                                                                   

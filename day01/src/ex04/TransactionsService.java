@@ -34,6 +34,41 @@ public class TransactionsService {
         userList_.retrieveUserById(uid).getMyTransactions().removeTransaction(tid);
     }
 
+    public Transaction[] getNotValidTransaction() {
+        int NumberOfUsers = userList_.retrieveNumberOfUsers();
+        int totalAmountTransactions = 0;
+        for (int i = 1; i <= NumberOfUsers; ++i) {
+            totalAmountTransactions += userList_.retrieveUserById(i).getMyTransactions().getSize_();
+        }
+
+        Transaction[] commonArrayTransactions = new Transaction[totalAmountTransactions];
+        Transaction[] notValidTransactions = new Transaction[totalAmountTransactions];
+        int index = 0;
+        for (int i = 1; i <= NumberOfUsers; ++i) {
+            Transaction[] arrUser = getTransactions(i);
+            for (Transaction transaction : arrUser) {
+                commonArrayTransactions[index] = transaction;
+                ++index;
+            }
+        }
+
+        index = 0;
+        for (int i = 0; i < totalAmountTransactions; ++i) {
+            int count = 0;
+            for (int j = 0; j < totalAmountTransactions; ++j) {
+               if (commonArrayTransactions[i].getTid().equals(commonArrayTransactions[j].getTid())) {
+                   ++count;
+               }
+            }
+            if (count == 1) {
+                notValidTransactions[index] = commonArrayTransactions[i];
+                ++index;
+            }
+        }
+        return notValidTransactions;
+    }
+
+
     public UserList getUserList_() {
         return userList_;
     }
