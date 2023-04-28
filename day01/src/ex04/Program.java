@@ -23,7 +23,7 @@ public class Program {
             System.out.println("Баланс пользователя id " + i + ": " + tService.retrieveUserBalans(i));
         }
         System.out.println();
-        System.out.println("Массив трансферов:");
+        System.out.println("Массив трансферов пользователя 1:");
         Transaction[] arr = tService.getTransactions(1);
         for (Transaction a : arr) {
             System.out.println(a);
@@ -44,6 +44,14 @@ public class Program {
         }
 
         System.out.println();
+        System.out.println("Массив невалидных трансферов:");
+        Transaction[] arr1 = tService.getNotValidTransaction();
+        for (Transaction a : arr1) {
+            if (a != null)
+                System.out.println(a);
+        }
+
+        System.out.println();
         System.out.println("Исключения:");
         try {
             tService.transfer(tService.getUserList_().retrieveUserById(2), tService.getUserList_().retrieveUserById(1), 5000);
@@ -56,9 +64,6 @@ public class Program {
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
-
-        Transaction[] arr1 = tService.getNotValidTransaction();
-        System.out.println("arr: " + arr1[0]);
     }
 }
                                                                                                                                                                                                                                                                                                                                   
