@@ -2,6 +2,7 @@ package ex05;
 
 
 import java.util.Scanner;
+import java.util.UUID;
 
 import static ex05.Transaction.transferCategory.credits;
 
@@ -59,7 +60,6 @@ public class Program {
                         uid = scanner.nextInt();
                         Transaction[] arr = tService.getTransactions(uid);
                         for (Transaction a : arr) {
-                            System.out.println("-----------------------------------");
                             if (a.getCategory() == credits) {
                             System.out.println("To " + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
                             } else {
@@ -72,7 +72,12 @@ public class Program {
                         System.out.println("Enter a user ID and a transfer ID");
                         uid = scanner.nextInt();
                         String tid = scanner.next();
-                        System.out.println(uid + " " + tid);
+                        tService.removeTransaction(uid, UUID.fromString(tid));
+//                        if (tService.getUserList_().retrieveUserById(uid).getMyTransactions(). == credits) {
+//                            System.out.println("To " + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
+//                        } else {
+//                            System.out.println("From " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
+//                        }
                         System.out.println("-----------------------------------");
                         break;
                     case "6":
