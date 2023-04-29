@@ -3,6 +3,8 @@ package ex05;
 
 import java.util.Scanner;
 
+import static ex05.Transaction.transferCategory.credits;
+
 public class Program {
     public static void main(String[] args) {
 
@@ -18,74 +20,80 @@ public class Program {
             System.out.println("5.DEV - remove a transfer by ID");
             System.out.println("6.DEV - check transfer validity");
             System.out.println("7.Finish execution");
-            int itemMenu = scanner.nextInt();
+
+            String  itemMenu = scanner.next();
 
             int uid;
             String name;
             long balance;
-//            try {
-            switch (itemMenu) {
-                case 1:
-                    System.out.println("Enter a user name and a balance");
-                    name = scanner.next();
-                    balance = scanner.nextLong();
-                    tService.addUser(name, balance);
-                    uid = tService.getUserList_().retrieveUserByIndex(index).getId();
-                    System.out.println("User whiths id = " + uid + " is added");
-                    System.out.println("-----------------------------------");
-                    break;
-                case 2:
-                    System.out.println("Enter a user ID");
-                    uid = scanner.nextInt();
-                    try {
-                        name = tService.getUserList_().retrieveUserById(uid).getName();
-                    } catch (RuntimeException e) {
-                        System.out.println(e.getMessage());
-                        System.out.println("Try again");
+            try {
+                switch (itemMenu) {
+                    case "1":
+                        System.out.println("Enter a user name and a balance");
+                        name = scanner.next();
+                        balance = scanner.nextLong();
+                        tService.addUser(name, balance);
+                        uid = tService.getUserList_().retrieveUserByIndex(index).getId();
+                        System.out.println("User whiths id = " + uid + " is added");
                         System.out.println("-----------------------------------");
                         break;
-                    }
-                    balance = tService.getUserList_().retrieveUserById(uid).getBalance();
-                    System.out.println(name + " - " + balance);
-                    System.out.println("-----------------------------------");
-                    break;
-                case 3:
-                    System.out.println("Enter a sender ID, a recipient ID, and a transfer amount");
-                    int senderId = scanner.nextInt();
-                    int recipientId = scanner.nextInt();
-                    long transferAmount = scanner.nextLong();
-                    tService.transfer(senderId, recipientId, transferAmount);
-                    System.out.println("The transfer is completed");
-                    System.out.println("-----------------------------------");
-                    break;
-                case 4:
-                    System.out.println("Enter a user ID");
-                    uid = scanner.nextInt();
-                    Transaction[] arr = tService.getTransactions(uid);
-                    for (Transaction a : arr) {
-                        System.out.println(a);
-                    }
-                    System.out.println(uid);
-                    System.out.println("-----------------------------------");
-                    break;
-                case 5:
-                    System.out.println("Enter a user ID and a transfer ID");
-                    uid = scanner.nextInt();
-                    String tid = scanner.next();
-                    System.out.println(uid + " " + tid);
-                    System.out.println("-----------------------------------");
-                    break;
-                case 6:
-                    System.out.println("-----------------------------------");
-                    break;
+                    case "2":
+                        System.out.println("Enter a user ID");
+                        uid = scanner.nextInt();
+                        name = tService.getUserList_().retrieveUserById(uid).getName();
+                        balance = tService.getUserList_().retrieveUserById(uid).getBalance();
+                        System.out.println(name + " - " + balance);
+                        System.out.println("-----------------------------------");
+                        break;
+                    case "3":
+                        System.out.println("Enter a sender ID, a recipient ID, and a transfer amount");
+                        int senderId = scanner.nextInt();
+                        int recipientId = scanner.nextInt();
+                        long transferAmount = scanner.nextLong();
+                        tService.transfer(senderId, recipientId, transferAmount);
+                        System.out.println("The transfer is completed");
+                        System.out.println("-----------------------------------");
+                        break;
+                    case "4":
+                        System.out.println("Enter a user ID");
+                        uid = scanner.nextInt();
+                        Transaction[] arr = tService.getTransactions(uid);
+                        for (Transaction a : arr) {
+                            System.out.println("-----------------------------------");
+                            if (a.getCategory() == credits) {
+                            System.out.println("To " + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
+                            } else {
+                                System.out.println("From " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
+                            }
+                        }
+                        System.out.println("-----------------------------------");
+                        break;
+                    case "5":
+                        System.out.println("Enter a user ID and a transfer ID");
+                        uid = scanner.nextInt();
+                        String tid = scanner.next();
+                        System.out.println(uid + " " + tid);
+                        System.out.println("-----------------------------------");
+                        break;
+                    case "6":
+                        System.out.println("-----------------------------------");
+                        break;
 
-                case 7:
-                    scanner.close();
-                    System.exit(0);
+                    case "7":
+                        scanner.close();
+                        System.exit(0);
+                    default:
+                        System.err.println("Illegal argumentt");
+                        System.out.println("Try again");
+                        System.out.println("-----------------------------------");
+                }
+            } catch (RuntimeException e) {
+                scanner.tokens();
+                System.err.println("Illegal argumenttt");
+                System.out.println("Try again");
+                System.out.println("-----------------------------------");
             }
-//            } catch (...) {
-//                System.out.println("e.getMessage()");
-//            }
+
             ++index;
 }
 
