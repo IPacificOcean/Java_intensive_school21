@@ -1,7 +1,4 @@
-package ex00;
-
-import static ex00.Transaction.transferCategory.credits;
-import static ex00.Transaction.transferCategory.debits;
+package ex01.ex00;
 
 public class Program {
     public static void main(String[] args) {
@@ -13,7 +10,7 @@ public class Program {
         System.out.println("id: " + user_2.getUid() + ", name: " + user_2.getName() + ", balans: " + user_2.getBalance());
         System.out.println();
         int transfer_amount = -500;
-        Transaction transaction = new Transaction(user_2, user_1, transfer_amount, credits);
+        Transaction transaction = new Transaction(user_2, user_1, transfer_amount, Transaction.transferCategory.credits);
 
         System.out.println("Данные после транзакции credits -500: " + transaction.getTid());
         user_1.setBalance(user_1.getBalance() + transfer_amount);
@@ -23,7 +20,7 @@ public class Program {
         System.out.println("id: " + user_2.getUid() + ", name: " + user_2.getName() + ", balans: " + user_2.getBalance());
 
         transfer_amount = 1000;
-        Transaction transaction2 = new Transaction(user_2, user_1, transfer_amount, debits);
+        Transaction transaction2 = new Transaction(user_2, user_1, transfer_amount, Transaction.transferCategory.debits);
         System.out.println();
         System.out.println("Данные после транзакции debits 1000: " + transaction2.getTid());
         user_2.setBalance(user_2.getBalance() - transfer_amount);

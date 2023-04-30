@@ -3,7 +3,7 @@ package ex04;
 
 public class UserArrayList implements UserList {
     private int size_ = 0;
-    private int capacity_ = 2;
+    private int capacity_ = 10;
     private User[] array_ = new User[capacity_];
 
     @Override

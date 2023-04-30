@@ -12,14 +12,13 @@ public class Menu {
     private String mode_ = "";
 
     void startProgram() {
-        int index = 0;
         while (true) {
             printMenu();
             String itemMenu = scanner.next();
             try {
                 switch (itemMenu) {
                     case "1":
-                        addUser(index);
+                        addUser();
                         break;
                     case "2":
                         userBalans();
@@ -44,19 +43,17 @@ public class Menu {
                 System.out.println("Try again");
                 System.out.println("-----------------------------------");
             }
-            ++index;
         }
     }
 
     void startDevMode() {
-        int index = 0;
         while (true) {
             printMenu();
             String itemMenu = scanner.next();
             try {
                 switch (itemMenu) {
                     case "1":
-                        addUser(index);
+                        addUser();
                         break;
                     case "2":
                         userBalans();
@@ -89,7 +86,7 @@ public class Menu {
                 System.out.println("-----------------------------------");
             }
 
-            ++index;
+
         }
     }
 
@@ -104,19 +101,21 @@ public class Menu {
         String item7dev = "7.Finish execution";
         String item7 = "5.Finish execution";
         if (mode_.equals("--profile=dev")) {
-            System.out.println(item1 + "\n" + item2 + "\n" + item3 + "\n" + item4 + "\n" + item5 + "\n" + item6 + "\n" + item7dev);
+            System.out.println(item1 + "\n" + item2 + "\n" + item3 + "\n"
+                    + item4 + "\n" + item5 + "\n" + item6 + "\n" + item7dev);
         } else {
-            System.out.println(item1 + "\n" + item2 + "\n" + item3 + "\n" + item4 + "\n" + item7);
+            System.out.println(item1 + "\n" + item2 + "\n"
+                    + item3 + "\n" + item4 + "\n" + item7);
         }
     }
 
-    void addUser(int index) {
+    void addUser() {
         System.out.println("Enter a user name and a balance");
         String name = scanner.next();
         long balance = scanner.nextLong();
         tService.addUser(name, balance);
-        int uid = tService.getUserList_().retrieveUserByIndex(index).getId();
-        System.out.println("User whiths id = " + uid + " is added");
+        int uid = tService.getUserList_().retrieveNumberOfUsers();
+        System.out.println("User with id = " + uid + " is added");
         System.out.println("-----------------------------------");
     }
 
@@ -145,11 +144,10 @@ public class Menu {
         int uid = scanner.nextInt();
         Transaction[] arr = tService.getTransactions(uid);
         for (Transaction a : arr) {
-            if (a.getCategory() == credits) {
-                System.out.println("To " + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
-            } else {
-                System.out.println("From " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
-            }
+            User user = getUser(a);
+            String direct = getDirection(a);
+            System.out.println(direct + " " + user.getName() + "(id = " + user.getId() + ") "
+                    + a.getTransfer_amount() + " with id = " + a.getTid());
         }
         System.out.println("-----------------------------------");
     }
@@ -158,14 +156,13 @@ public class Menu {
         System.out.println("Enter a user ID and a transfer ID");
         int uid = scanner.nextInt();
         String tid = scanner.next();
-        Transaction[] arr1 = tService.getTransactions(uid);
-        for (Transaction a : arr1) {
+        Transaction[] arr = tService.getTransactions(uid);
+        for (Transaction a : arr) {
             if (a.getTid().equals(UUID.fromString(tid))) {
-                if (a.getCategory() == credits) {
-                    System.out.println("To " + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + a.getTransfer_amount() + " removed");
-                } else {
-                    System.out.println("From " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + a.getTransfer_amount() + " removed");
-                }
+                User user = getUser(a);
+                String direct = getDirection(a);
+                System.out.println("Transfer " + direct + " " + user.getName() + "(id = "
+                        + user.getId() + ") " + a.getTransfer_amount() + " removed");
             }
         }
         tService.removeTransaction(uid, UUID.fromString(tid));
@@ -173,15 +170,26 @@ public class Menu {
     }
 
     void checkTransfer() {
-        Transaction[] arr2 = tService.getNotValidTransaction();
-        for (Transaction a : arr2) {
+        Transaction[] arr = tService.getNotValidTransaction();
+        System.out.println("Check results:");
+        for (Transaction a : arr) {
             if (a.getCategory() == credits) {
-                System.out.println("Check results: \n" + a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + "has unacknowledged transfer id = " + a.getTid());
+                System.out.println(a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + "has unacknowledged transfer id = " + a.getTid() + " to "
+                        + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") for " + a.getTransfer_amount());
             } else {
-                System.out.println("Check results: \n" + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + "has unacknowledged transfer id = " + a.getTid());
+                System.out.println(a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + "has unacknowledged transfer id = "
+                        + a.getTid() + " from " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") for " + a.getTransfer_amount());
             }
         }
         System.out.println("-----------------------------------");
+    }
+
+    User getUser(Transaction transaction) {
+       return transaction.getCategory() == credits ? transaction.getRecipient() : transaction.getSender();
+    }
+
+    String getDirection(Transaction transaction) {
+        return transaction.getCategory() == credits ? "To" : "From";
     }
 
     void startApp(String[] args) {
