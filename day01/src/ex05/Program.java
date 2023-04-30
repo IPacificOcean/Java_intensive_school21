@@ -72,15 +72,28 @@ public class Program {
                         System.out.println("Enter a user ID and a transfer ID");
                         uid = scanner.nextInt();
                         String tid = scanner.next();
+                        Transaction[] arr1 = tService.getTransactions(uid);
+                        for (Transaction a : arr1) {
+                            if (a.getTid().equals(UUID.fromString(tid))) {
+                                if (a.getCategory() == credits) {
+                                    System.out.println("To " + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + a.getTransfer_amount() + " removed");
+                                } else {
+                                    System.out.println("From " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + a.getTransfer_amount() + " removed");
+                                }
+                            }
+                        }
                         tService.removeTransaction(uid, UUID.fromString(tid));
-//                        if (tService.getUserList_().retrieveUserById(uid).getMyTransactions(). == credits) {
-//                            System.out.println("To " + a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
-//                        } else {
-//                            System.out.println("From " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + a.getTransfer_amount() + " with id = " + a.getTid());
-//                        }
                         System.out.println("-----------------------------------");
                         break;
                     case "6":
+                        Transaction[]  arr2 =tService.getNotValidTransaction();
+                        for (Transaction a : arr2) {
+                            if (a.getCategory() == credits) {
+                                System.out.println(a.getSender().getName() + "(id = " + a.getSender().getId() + ") " + "has unacknowledged transfer id = " + a.getTid());
+                            } else {
+                                System.out.println(a.getRecipient().getName() + "(id = " + a.getRecipient().getId() + ") " + "has unacknowledged transfer id = " + a.getTid());
+                            }
+                        }
                         System.out.println("-----------------------------------");
                         break;
 
