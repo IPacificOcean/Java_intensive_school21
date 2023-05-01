@@ -6,14 +6,14 @@ import java.util.UUID;
 import static ex05.Transaction.transferCategory.credits;
 
 public class Menu {
-
+// exceptions
     private final TransactionsService tService = new TransactionsService();
     private final Scanner scanner = new Scanner(System.in);
     private String mode_ = "";
 
     void startProgram() {
+        printMenu();
         while (true) {
-            printMenu();
             String itemMenu = scanner.next();
             try {
                 switch (itemMenu) {
@@ -35,20 +35,22 @@ public class Menu {
                     default:
                         System.err.println("Illegal argumentt");
                         System.out.println("Try again");
-                        System.out.println("-----------------------------------");
                 }
+            } catch (IllegalTransactionException | TransactionNotFoundException
+                     | UserNotFoundException e) {
+                System.err.println(e.getMessage());
             } catch (RuntimeException e) {
-                scanner.tokens();
                 System.err.println("Illegal argumenttt");
-                System.out.println("Try again");
-                System.out.println("-----------------------------------");
+                System.out.println("Try againn");
             }
+            System.out.println("-----------------------------------");
+            printMenu();
         }
     }
 
     void startDevMode() {
+        printMenu();
         while (true) {
-            printMenu();
             String itemMenu = scanner.next();
             try {
                 switch (itemMenu) {
@@ -77,16 +79,16 @@ public class Menu {
                     default:
                         System.err.println("Illegal argumentt");
                         System.out.println("Try again");
-                        System.out.println("-----------------------------------");
                 }
+            } catch (IllegalTransactionException | TransactionNotFoundException
+                     | UserNotFoundException e) {
+                System.err.println(e.getMessage());
             } catch (RuntimeException e) {
-                scanner.tokens();
                 System.err.println("Illegal argumenttt");
-                System.out.println("Try again");
-                System.out.println("-----------------------------------");
+                System.out.println("Try againn");
             }
-
-
+            System.out.println("-----------------------------------");
+            printMenu();
         }
     }
 
@@ -116,7 +118,6 @@ public class Menu {
         tService.addUser(name, balance);
         int uid = tService.getUserList_().retrieveNumberOfUsers();
         System.out.println("User with id = " + uid + " is added");
-        System.out.println("-----------------------------------");
     }
 
     void userBalans() {
@@ -125,8 +126,6 @@ public class Menu {
         String name = tService.getUserList_().retrieveUserById(uid).getName();
         long balance = tService.getUserList_().retrieveUserById(uid).getBalance();
         System.out.println(name + " - " + balance);
-        System.out.println("-----------------------------------");
-
     }
 
     void transact() {
@@ -136,7 +135,6 @@ public class Menu {
         long transferAmount = scanner.nextLong();
         tService.transfer(senderId, recipientId, transferAmount);
         System.out.println("The transfer is completed");
-        System.out.println("-----------------------------------");
     }
 
     void userTransactions() {
@@ -149,7 +147,6 @@ public class Menu {
             System.out.println(direct + " " + user.getName() + "(id = " + user.getId() + ") "
                     + a.getTransfer_amount() + " with id = " + a.getTid());
         }
-        System.out.println("-----------------------------------");
     }
 
     void removeTransfer() {
@@ -166,7 +163,6 @@ public class Menu {
             }
         }
         tService.removeTransaction(uid, UUID.fromString(tid));
-        System.out.println("-----------------------------------");
     }
 
     void checkTransfer() {
@@ -181,7 +177,6 @@ public class Menu {
                         + a.getTid() + " from " + a.getSender().getName() + "(id = " + a.getSender().getId() + ") for " + a.getTransfer_amount());
             }
         }
-        System.out.println("-----------------------------------");
     }
 
     User getUser(Transaction transaction) {
