@@ -10,11 +10,11 @@ import java.util.concurrent.TimeUnit;
 public class test {
     public static void main(String[] args) throws IOException {
         FileReader fileIn = new FileReader("day02/src/ex00/signatures.txt");
-        FileWriter fileOut = new FileWriter("day02/src/ex00/copy_signatures.txt");
+        FileWriter fileOut = new FileWriter("day02/src/ex00/result.txt");
         HashMap<String,String> dict = new HashMap<String,String>();
         int maxCountLine = 0;
         Scanner scanner = new Scanner(fileIn);
-// Ищем максимальную длину строки
+// Ищем максимальную длину строки и записываем в map- ключ:значение
         while (scanner.hasNext()) {
             String str = scanner.nextLine();
             String[] strEXT = str.split(",");
@@ -27,42 +27,46 @@ public class test {
         scanner.close();
 //        scanner.close();
 //Получаем путь к файлу для распознавания
-        Scanner scannerFout = new Scanner(System.in);
-        String str = scannerFout.nextLine();
-        System.out.println(str);
-        scannerFout.close();
+            Scanner scannerFout = new Scanner(System.in);
+        while (scannerFout.hasNext()) {
+            String str = scannerFout.nextLine();
+            if (str.equals("42")) break;
+            System.out.println(str);
+//            scannerFout.close();
 //Считываем из файла источника первые maxCountLine байт и записываем в строку
-        FileReader fileIn2 = new FileReader(str);
+            FileReader fileIn2 = new FileReader(str);
 
-        StringBuilder strB = new StringBuilder();
-        int a;
-        while ((a = fileIn2.read()) != -1) {
-            strB.append(String.format("%02X ", a));
-            if (maxCountLine == 0) break;
-            --maxCountLine;
+            StringBuilder strB = new StringBuilder();
+            int a;
+            while ((a = fileIn2.read()) != -1) {
+                strB.append(String.format("%02X ", a));
+                if (maxCountLine == 0) break;
+                --maxCountLine;
 
-        }
-        if (fileIn2 != null) {
-            fileIn2.close();
-        }
-        if (fileOut != null) {
+            }
+            if (fileIn2 != null) {
+                fileIn2.close();
+            }
+
+            // сравниваем строку из файла источника с ключем в словаре и записываем в файл значение(расширение файла)
+            String strSourse = strB.toString();
+            System.out.println(strSourse);
+            System.out.println();
+
+            String strPref = null;
+            for (Map.Entry m : dict.entrySet()) {
+                if (strSourse.startsWith((String) m.getKey())) {
+                    strPref = (String) m.getValue();
+                    System.out.println(strPref);
+                }
+            }
+            if (strPref != null)
+                fileOut.write(strPref);
             fileOut.close();
         }
-        String strSourse = strB.toString();
-        System.out.println(strSourse);
-        System.out.println();
 
-        String strPref;
-        for(Map.Entry m : dict.entrySet()){
-            if (strSourse.startsWith((String)m.getKey())) {
-                strPref = (String) m.getValue();
-                System.out.println(strPref);
-            } else {
-                System.out.println("UNDEFINED");
-            }
-//            System.out.println(m.getKey()+" "+m.getValue());
-        }
-
+//        if (fileOut != null) {
+//        }
 
 
 
@@ -70,6 +74,13 @@ public class test {
 //        day02/src/ex00/pay.pdf
 //        day02/src/ex00/image.png
 }
+
+
+
+
+
+
+
    /* public static void main(String[] args) throws IOException {
 
 
@@ -83,7 +94,7 @@ String str;
         try {
 
             fileIn = new FileReader("day02/src/ex00/signatures.txt");
-            fileOut = new FileWriter("day02/src/ex00/copy_signatures.txt");
+            fileOut = new FileWriter("day02/src/ex00/result.txt");
 
             int a;
             while ((a = fileIn.read())!= -1) {
