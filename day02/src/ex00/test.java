@@ -2,6 +2,8 @@ package ex00;
 
 import java.io.*;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +11,7 @@ public class test {
     public static void main(String[] args) throws IOException {
         FileReader fileIn = new FileReader("day02/src/ex00/signatures.txt");
         FileWriter fileOut = new FileWriter("day02/src/ex00/copy_signatures.txt");
+        HashMap<String,String> dict = new HashMap<String,String>();
         int maxCountLine = 0;
         Scanner scanner = new Scanner(fileIn);
 // Ищем максимальную длину строки
@@ -17,11 +20,12 @@ public class test {
             String[] strEXT = str.split(",");
             String str2 = strEXT[1].trim();
             maxCountLine = Math.max(str2.length(), maxCountLine);
+            dict.put(strEXT[1].trim(), strEXT[0]);
             System.out.println(strEXT[0] + ": :" + str2+ ':' );
         }
         System.out.println("maxCountLine: " + maxCountLine);
-
         scanner.close();
+//        scanner.close();
 //Получаем путь к файлу для распознавания
         Scanner scannerFout = new Scanner(System.in);
         String str = scannerFout.nextLine();
@@ -32,7 +36,6 @@ public class test {
 
         StringBuilder strB = new StringBuilder();
         int a;
-        int i=0;
         while ((a = fileIn2.read()) != -1) {
             strB.append(String.format("%02X ", a));
             if (maxCountLine == 0) break;
@@ -45,8 +48,23 @@ public class test {
         if (fileOut != null) {
             fileOut.close();
         }
-        String str3 = strB.toString();
-            System.out.println(str3);
+        String strSourse = strB.toString();
+        System.out.println(strSourse);
+        System.out.println();
+
+        String strPref;
+        for(Map.Entry m : dict.entrySet()){
+            if (strSourse.startsWith((String)m.getKey())) {
+                strPref = (String) m.getValue();
+                System.out.println(strPref);
+            } else {
+                System.out.println("UNDEFINED");
+            }
+//            System.out.println(m.getKey()+" "+m.getValue());
+        }
+
+
+
 
 
 //        day02/src/ex00/pay.pdf
