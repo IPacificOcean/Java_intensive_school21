@@ -1,79 +1,80 @@
 package ex00;
 
 import java.io.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class test {
     public static void main(String[] args) throws IOException {
         FileReader fileIn = new FileReader("day02/src/ex00/signatures.txt");
-        FileWriter fileOut = new FileWriter("day02/src/ex00/result.txt");
-        HashMap<String,String> dict = new HashMap<String,String>();
-        int maxCountLine = 0;
+        HashMap<String, String> dictCodes = new HashMap<>();
+        int maxLengthLine = 0;
         Scanner scanner = new Scanner(fileIn);
 // Ищем максимальную длину строки и записываем в map- ключ:значение
         while (scanner.hasNext()) {
             String str = scanner.nextLine();
-            String[] strEXT = str.split(",");
-            String str2 = strEXT[1].trim();
-            maxCountLine = Math.max(str2.length(), maxCountLine);
-            dict.put(strEXT[1].trim(), strEXT[0]);
-            System.out.println(strEXT[0] + ": :" + str2+ ':' );
+            String[] strExtAndCode = str.split(",");
+            String strOfCode = strExtAndCode[1].trim();
+            maxLengthLine = Math.max(strOfCode.length(), maxLengthLine);
+            dictCodes.put(strOfCode, strExtAndCode[0]);
+//            System.out.println(strExtAndCode[0] + ": :" + strOfCode + ':');
         }
-        System.out.println("maxCountLine: " + maxCountLine);
+//        System.out.println("maxLengthLine: " + maxLengthLine);
         scanner.close();
-//        scanner.close();
 //Получаем путь к файлу для распознавания
-            Scanner scannerFout = new Scanner(System.in);
+        String strPath;
+        Scanner scannerFout = new Scanner(System.in);
         while (scannerFout.hasNext()) {
-            String str = scannerFout.nextLine();
-            if (str.equals("42")) break;
-            System.out.println(str);
-//            scannerFout.close();
-//Считываем из файла источника первые maxCountLine байт и записываем в строку
-            FileReader fileIn2 = new FileReader(str);
-
+            strPath = scannerFout.nextLine();
+            if (strPath.equals("42")) break;
+//            System.out.println(strPath);
+//Считываем из файла источника первые maxLengthLine байт и записываем в строку
             StringBuilder strB = new StringBuilder();
-            int a;
-            while ((a = fileIn2.read()) != -1) {
-                strB.append(String.format("%02X ", a));
-                if (maxCountLine == 0) break;
-                --maxCountLine;
+            try (FileReader fileIn2 = new FileReader(strPath)) {
 
-            }
-            if (fileIn2 != null) {
-                fileIn2.close();
+                int a;
+                int length = maxLengthLine;
+                while ((a = fileIn2.read()) != -1) {
+                    strB.append(String.format("%02X ", a));
+                    if (length == 0) {
+                        strB.append("\n");
+                        break;
+                    }
+                    --length;
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
             }
 
             // сравниваем строку из файла источника с ключем в словаре и записываем в файл значение(расширение файла)
             String strSourse = strB.toString();
-            System.out.println(strSourse);
-            System.out.println();
+//            System.out.println();
 
             String strPref = null;
-            for (Map.Entry m : dict.entrySet()) {
+            for (Map.Entry m : dictCodes.entrySet()) {
                 if (strSourse.startsWith((String) m.getKey())) {
-                    strPref = (String) m.getValue();
-                    System.out.println(strPref);
+                    strPref = m.getValue() + "\n";
+//                    System.out.println(strPref);
                 }
             }
-            if (strPref != null)
-                fileOut.write(strPref);
-            fileOut.close();
+            try (FileWriter fileOut = new FileWriter("day02/src/ex00/result.txt", true)) {
+                if (strPref != null) {
+                    fileOut.write(strPref);
+                    System.out.println("PROCESSED");
+                } else {
+                    System.out.println("UNDEFINED");
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
-
-//        if (fileOut != null) {
-//        }
-
-
+            scannerFout.close();
 
 
 //        day02/src/ex00/pay.pdf
 //        day02/src/ex00/image.png
-}
+//        day02/src/ex00/bubl.gif
+    }
 
 
 
