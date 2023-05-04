@@ -1,12 +1,14 @@
 package ex00;
 
+/*
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class test {
     public static void main(String[] args) throws IOException {
-        FileReader fileIn = new FileReader("day02/src/ex00/signatures.txt");
+        String in = "day02/src/ex00/signatures.txt";
+        FileReader fileIn = new FileReader(in);
         HashMap<String, String> dictCodes = new HashMap<>();
         int maxLengthLine = 0;
         Scanner scanner = new Scanner(fileIn);
@@ -82,7 +84,8 @@ public class test {
 
 
 
-   /* public static void main(String[] args) throws IOException {
+   */
+/* public static void main(String[] args) throws IOException {
 
 
         FileReader fileIn = null;
@@ -112,10 +115,12 @@ String str;
                 fileOut.close();
             }
         }
-    }*/
+    }*//*
 
 
 
+
+*/
 /*    public static void main(String[] args) {
         try {
             long start = System.currentTimeMillis();
@@ -128,5 +133,7 @@ String str;
         } catch (Exception e) {
             System.out.println("Получили исключение!");
         }
-    }*/
+    }*//*
+
 }
+*/
