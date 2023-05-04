@@ -22,54 +22,55 @@ public class CheckExtension {
         getSignatures();
         checkExtensionOfFiles();
     }
-void getSignatures(){
-    try (FileReader fileIn = new FileReader(in_)) {
-        Scanner scanner = new Scanner(fileIn);
-        while (scanner.hasNext()) {
-            String str = scanner.nextLine();
-            String[] strExtAndCode = str.split(",");
-            String strOfCode = strExtAndCode[1].trim();
-            maxLengthLine = Math.max(strOfCode.length(), maxLengthLine);
-            dictCodes.put(strOfCode, strExtAndCode[0]);
-        }
-        scanner.close();
-    } catch (IOException e) {
-        System.out.println(e.getMessage());
-    }
-}
 
-void checkExtensionOfFiles() {
-    String strPath;
-    Scanner scannerFout = new Scanner(System.in);
-    while (scannerFout.hasNext()) {
-        strPath = scannerFout.nextLine();
-        if (strPath.equals("42")) break;
-        String strSourse = getStrForCheck(strPath);
-        String strExt = getExtension(strSourse);
-        writeExtInFile(strExt);
-    }
-    scannerFout.close();
-
-}
-
-String getStrForCheck(String strPath) {
-    StringBuilder strB = new StringBuilder();
-    try (FileReader fileIn2 = new FileReader(strPath)) {
-        int a;
-        int length = maxLengthLine;
-        while ((a = fileIn2.read()) != -1) {
-            strB.append(String.format("%02X ", a));
-            if (length == 0) {
-                strB.append("\n");
-                break;
+    void getSignatures() {
+        try (FileReader fileIn = new FileReader(in_)) {
+            Scanner scanner = new Scanner(fileIn);
+            while (scanner.hasNext()) {
+                String str = scanner.nextLine();
+                String[] strExtAndCode = str.split(",");
+                String strOfCode = strExtAndCode[1].trim();
+                maxLengthLine = Math.max(strOfCode.length(), maxLengthLine);
+                dictCodes.put(strOfCode, strExtAndCode[0]);
             }
-            --length;
+            scanner.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-    } catch (IOException e) {
-        System.out.println(e.getMessage());
     }
-    return strB.toString();
-}
+
+    void checkExtensionOfFiles() {
+        String strPath;
+        Scanner scannerFout = new Scanner(System.in);
+        while (scannerFout.hasNext()) {
+            strPath = scannerFout.nextLine();
+            if (strPath.equals("42")) break;
+            String strSourse = getStrForCheck(strPath);
+            String strExt = getExtension(strSourse);
+            writeExtInFile(strExt);
+        }
+        scannerFout.close();
+
+    }
+
+    String getStrForCheck(String strPath) {
+        StringBuilder strB = new StringBuilder();
+        try (FileReader fileIn2 = new FileReader(strPath)) {
+            int a;
+            int length = maxLengthLine;
+            while ((a = fileIn2.read()) != -1) {
+                strB.append(String.format("%02X ", a));
+                if (length == 0) {
+                    strB.append("\n");
+                    break;
+                }
+                --length;
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return strB.toString();
+    }
 
     String getExtension(String strSourse) {
         String Ext = null;
@@ -78,7 +79,7 @@ String getStrForCheck(String strPath) {
                 Ext = m.getValue() + "\n";
             }
         }
-        return  Ext;
+        return Ext;
     }
 
     void writeExtInFile(String strExt) {
