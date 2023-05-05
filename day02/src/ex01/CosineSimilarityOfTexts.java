@@ -1,22 +1,18 @@
 package ex01;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class CosineSimilarityOfTexts {
-    private String dictPath = "day02/src/ex01/Dictionary.txt";
-    private String textA_;
-    private String textB_;
-    private List<String> wordsA_ = new ArrayList<>();
-    private List<String> wordsB_ = new ArrayList<>();
-    private Set<String> dict_ = new HashSet<>();
+    private final String dictPath = "day02/src/ex01/Dictionary.txt";
+    private final String textA_;
+    private final String textB_;
+    private final List<String> wordsA_ = new ArrayList<>();
+    private final List<String> wordsB_ = new ArrayList<>();
+    private final Set<String> dict_ = new HashSet<>();
     private int[] a_;
     private int[] b_;
-
-
+    double similarity_ = 0.0;
 
 
     public CosineSimilarityOfTexts(String textA, String textB) {
@@ -24,13 +20,14 @@ public class CosineSimilarityOfTexts {
         textB_ = textB;
     }
 
-    void startApp(){
+    void startApp() {
         textToStringArray(textA_, wordsA_);
         textToStringArray(textB_, wordsB_);
         createDict();
         a_ = occurrence(wordsA_);
         b_ = occurrence(wordsB_);
         similarity();
+        writeDictInFile();
     }
 
     void textToStringArray(String text, List<String> words) {
@@ -39,7 +36,6 @@ public class CosineSimilarityOfTexts {
             while ((line = reader.readLine()) != null) {
                 Collections.addAll(words, line.split("\\W+"));
             }
-//            reader.close();
             System.out.println(words);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -76,11 +72,12 @@ public class CosineSimilarityOfTexts {
     public void similarity() {
         int numeratorAB = numeratorAB();
         double denominator = denominator();
-        double similarity = roundWithPrecision((numeratorAB / denominator), 100);
-
+        if (denominator != 0) {
+            similarity_ = roundWithPrecision((numeratorAB / denominator), 100);
+        }
         System.out.println(numeratorAB);
         System.out.println(denominator);
-        System.out.println(similarity);
+        System.out.println(similarity_);
     }
 
     double denominator() {
@@ -94,7 +91,7 @@ public class CosineSimilarityOfTexts {
         }
         numeratorAB = (roundWithPrecision(Math.sqrt(arrA), 100))
                 * (roundWithPrecision(Math.sqrt(arrB), 100));
-        return roundWithPrecision(numeratorAB, 10);
+        return roundWithPrecision(numeratorAB, 100);
     }
 
     double roundWithPrecision(double r, double units) {
@@ -109,14 +106,10 @@ public class CosineSimilarityOfTexts {
         return ab;
     }
 
-
-    private void writeExtInFile(String strExt) {
-        try (FileWriter fileOut = new FileWriter(dictPath, true)) {
-            if (strExt != null) {
-                fileOut.write(strExt);
-                System.out.println("PROCESSED");
-            } else {
-                System.out.println("UNDEFINED");
+    private void writeDictInFile() {
+        try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(dictPath))) {
+            for (String s : dict_) {
+                fileOut.write(s + " ");
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

@@ -137,3 +137,31 @@ String str;
 
 }
 */
+/*
+
+try (Scanner reader = new Scanner(new InputStreamReader(new FileInputStream("c:/Denis/wwwroot/1.txt")))) {
+        List<String> chunks = new ArrayList<>();
+        while (reader.hasNextLine()) {
+        for (String chunk : reader.nextLine().split("\\s")) {
+        chunks.add(chunk);
+        }
+        }
+        reader.close();
+        System.out.println(chunks);
+        } catch (IOException e) {
+        }
+
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("c:/Denis/wwwroot/1.txt")))) {
+        List<String> chunks = new ArrayList<>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+        for (String chunk : line.split("\\s")) {
+        chunks.add(chunk);
+        }
+        }
+        reader.close();
+        System.out.println(chunks);
+        } catch (IOException e) {
+        }
+*/
