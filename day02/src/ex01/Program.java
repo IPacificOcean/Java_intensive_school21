@@ -3,26 +3,20 @@ package ex01;
 
 public class Program {
     public static void main(String[] args) {
-    String textA = "day02/src/ex01/textA.txt";
-    String textB = "day02/src/ex01/textB.txt";
+        String textA;
+        String textB;
+        String dictPath = "day02/src/ex01/Dictionary.txt";
+//        String textA = "day02/src/ex01/textA.txt";
+//        String textB = "day02/src/ex01/textB.txt";
+        if (args.length < 2) {
+            System.out.println("too few arguments");
+            System.exit(-1);
+        } else {
+            textA = args[0];
+            textB = args[1];
+            CosineSimilarityOfTexts cosineSimilarityOfTexts = new CosineSimilarityOfTexts(textA, textB, dictPath);
+            cosineSimilarityOfTexts.startApp();
+        }
 
-    CosineSimilarityOfTexts cosineSimilarityOfTexts = new CosineSimilarityOfTexts(textA, textB);
-    cosineSimilarityOfTexts.startApp();
-
-//        try (BufferedReader reader = new BufferedReader(new FileReader("day02/src/ex01/textA.txt"))) {
-//            List<String> chunks = new ArrayList<>();
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                for (String chunk : line.split("\\W+")) {
-//                    chunks.add(chunk);
-//                }
-//            }
-//            reader.close();
-//            System.out.println(chunks);
-//        } catch (IOException e) {
-//        }
     }
-
-
-
 }

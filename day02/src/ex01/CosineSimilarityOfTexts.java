@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class CosineSimilarityOfTexts {
-    private final String dictPath = "day02/src/ex01/Dictionary.txt";
+    private final String dictPath_;
     private final String textA_;
     private final String textB_;
     private final List<String> wordsA_ = new ArrayList<>();
@@ -15,9 +15,10 @@ public class CosineSimilarityOfTexts {
     double similarity_ = 0.0;
 
 
-    public CosineSimilarityOfTexts(String textA, String textB) {
+    public CosineSimilarityOfTexts(String textA, String textB, String dictPath) {
         textA_ = textA;
         textB_ = textB;
+        dictPath_ = dictPath;
     }
 
     void startApp() {
@@ -107,7 +108,7 @@ public class CosineSimilarityOfTexts {
     }
 
     private void writeDictInFile() {
-        try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(dictPath))) {
+        try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(dictPath_))) {
             for (String s : dict_) {
                 fileOut.write(s + " ");
             }
