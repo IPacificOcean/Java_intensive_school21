@@ -12,7 +12,8 @@ public class CosineSimilarityOfTexts {
     private final Set<String> dict_ = new HashSet<>();
     private int[] a_;
     private int[] b_;
-    double similarity_ = 0.0;
+    private double similarity_ = 0.0;
+    private static final int BUFFER_SIZE = 10 * 1024 * 1024;
 
 
     public CosineSimilarityOfTexts(String textA, String textB, String dictPath) {
@@ -32,12 +33,11 @@ public class CosineSimilarityOfTexts {
     }
 
     void textToStringArray(String text, List<String> words) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(text), BUFFER_SIZE)) {
             String line;
             while ((line = reader.readLine()) != null) {
                 Collections.addAll(words, line.split("\\W+"));
             }
-            System.out.println(words);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -46,7 +46,6 @@ public class CosineSimilarityOfTexts {
     void createDict() {
         dict_.addAll(wordsA_);
         dict_.addAll(wordsB_);
-        System.out.println(dict_);
     }
 
     int[] occurrence(List<String> words) {
@@ -76,11 +75,16 @@ public class CosineSimilarityOfTexts {
         if (denominator != 0) {
             similarity_ = roundWithPrecision((numeratorAB / denominator), 100);
         }
-        System.out.println(numeratorAB);
-        System.out.println(denominator);
-        System.out.println(similarity_);
+        System.out.println("Similarity = " + similarity_);
     }
 
+    int numeratorAB() {
+        int ab = 0;
+        for (int i = 0; i < a_.length; ++i) {
+            ab += a_[i] * b_[i];
+        }
+        return ab;
+    }
     double denominator() {
         int arrB = 0;
         int arrA = 0;
@@ -98,17 +102,8 @@ public class CosineSimilarityOfTexts {
     double roundWithPrecision(double r, double units) {
         return Math.floor(r * units) / units;
     }
-
-    int numeratorAB() {
-        int ab = 0;
-        for (int i = 0; i < a_.length; ++i) {
-            ab += a_[i] * b_[i];
-        }
-        return ab;
-    }
-
     private void writeDictInFile() {
-        try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(dictPath_))) {
+        try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(dictPath_), BUFFER_SIZE)) {
             for (String s : dict_) {
                 fileOut.write(s + " ");
             }
