@@ -1,17 +1,82 @@
 package ex01;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.*;
 
 public class CosineSimilarityOfTexts {
     private String dictPath = "day02/src/ex01/Dictionary.txt";
-    int[] a = {1, 1, 0, 2, 1, 0};
-    int[] b = {3, 0, 1, 1, 0, 1};
+    private String textA_;
+    private String textB_;
+    private List<String> wordsA_ = new ArrayList<>();
+    private List<String> wordsB_ = new ArrayList<>();
+    private Set<String> dict_ = new HashSet<>();
+    private int[] a_;
+    private int[] b_;
+
+
+
+
+    public CosineSimilarityOfTexts(String textA, String textB) {
+        textA_ = textA;
+        textB_ = textB;
+    }
+
+    void startApp(){
+        textToStringArray(textA_, wordsA_);
+        textToStringArray(textB_, wordsB_);
+        createDict();
+        a_ = occurrence(wordsA_);
+        b_ = occurrence(wordsB_);
+        similarity();
+    }
+
+    void textToStringArray(String text, List<String> words) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Collections.addAll(words, line.split("\\W+"));
+            }
+//            reader.close();
+            System.out.println(words);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    void createDict() {
+        dict_.addAll(wordsA_);
+        dict_.addAll(wordsB_);
+        System.out.println(dict_);
+    }
+
+    int[] occurrence(List<String> words) {
+        int[] countOccurrence = new int[dict_.size()];
+        int j = 0;
+        int count;
+        Iterator<String> i = dict_.iterator();
+        String line;
+        while (i.hasNext()) {
+            line = i.next();
+            count = 0;
+            for (String s : words) {
+                if (line.equals(s)) {
+                    ++count;
+                }
+            }
+            countOccurrence[j] = count;
+            ++j;
+        }
+        return countOccurrence;
+    }
+
 
     public void similarity() {
         int numeratorAB = numeratorAB();
         double denominator = denominator();
-        double similarity = roundWithPrecision((numeratorAB / denominator), 100);// todo checklist
+        double similarity = roundWithPrecision((numeratorAB / denominator), 100);
 
         System.out.println(numeratorAB);
         System.out.println(denominator);
@@ -23,9 +88,9 @@ public class CosineSimilarityOfTexts {
         int arrA = 0;
         double numeratorAB;
         double degree = 2;
-        for (int i = 0; i < a.length; ++i) {
-            arrA += (Math.pow(a[i], degree));
-            arrB += (Math.pow(b[i], degree));
+        for (int i = 0; i < a_.length; ++i) {
+            arrA += (Math.pow(a_[i], degree));
+            arrB += (Math.pow(b_[i], degree));
         }
         numeratorAB = (roundWithPrecision(Math.sqrt(arrA), 100))
                 * (roundWithPrecision(Math.sqrt(arrB), 100));
@@ -38,8 +103,8 @@ public class CosineSimilarityOfTexts {
 
     int numeratorAB() {
         int ab = 0;
-        for(int i =0; i < a.length; ++i) {
-            ab += a[i] * b[i];
+        for (int i = 0; i < a_.length; ++i) {
+            ab += a_[i] * b_[i];
         }
         return ab;
     }
