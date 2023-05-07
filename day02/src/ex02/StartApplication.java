@@ -3,6 +3,7 @@ package ex02;
 import java.io.*;
 
 public class StartApplication {
+    commandActions action = new commandActions();
 
     void start(String workdir) {
         System.out.println(workdir);
@@ -28,19 +29,19 @@ public class StartApplication {
         }
     }
 
-    void collCommand(String[] comand) {
-        switch (comand[0]) {
+    void collCommand(String[] command) {
+        switch (command[0]) {
             case "ls":
-                System.out.println("ls");
+                action.lsCommand(command);
                 break;
             case "mv":
-                System.out.println("mv");
+                action.mvCommand(command);
                 break;
             case "cd":
-                System.out.println("cd");
+                action.cdCommand(command);
                 break;
             default:
-                throw  new RuntimeException(comand[0] + " command undetected");
+                throw  new RuntimeException(command[0] + " command undetected");
         }
     }
 }
