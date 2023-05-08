@@ -1,12 +1,21 @@
 package ex02;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class StartApplication {
-    commandActions action = new commandActions();
 
-    void start(String workdir) {
-        System.out.println(workdir);
+    Path path_;
+    private final commandActions action_ = new commandActions();
+
+    public StartApplication(String workdir) {
+        path_ = Paths.get(workdir).toAbsolutePath().normalize();
+    }
+
+    void start() {
+        System.out.println(path_);
+        action_.setPath_(path_);
         input();
     }
 
@@ -29,16 +38,16 @@ public class StartApplication {
         }
     }
 
-    void collCommand(String[] command) {
+    void collCommand(String[] command) throws IOException {
         switch (command[0]) {
             case "ls":
-                action.lsCommand(command);
+                action_.lsCommand(command);
                 break;
             case "mv":
-                action.mvCommand(command);
+                action_.mvCommand(command);
                 break;
             case "cd":
-                action.cdCommand(command);
+                action_.cdCommand(command);
                 break;
             default:
                 throw  new RuntimeException(command[0] + " command undetected");
