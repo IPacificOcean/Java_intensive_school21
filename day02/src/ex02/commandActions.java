@@ -24,13 +24,13 @@ public class commandActions {
                 try {
                     long size;
                     if (Files.isDirectory(f)) {
-                        size = getFolderSize(f);
+                        size = directorySize(f);
                     } else {
                         size = Files.size(f);
                     }
                     System.out.printf("%s %d KB\n", f.getFileName(), size);
                 } catch (Exception e) {
-                    System.err.println("Size display error");
+                    System.err.println("it is not possible to get the size");
                 }
             });
         } catch (Exception e) {
@@ -61,12 +61,12 @@ public class commandActions {
         Files.move(fileName, dest, REPLACE_EXISTING);
     }
 
-    private long getFolderSize(Path folder) {
+    private long directorySize(Path folder) {
         long size = 0L;
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder)) {
             for (Path p : stream) {
                 if (Files.isDirectory(p)) {
-                    size += getFolderSize(p);
+                    size += directorySize(p);
                 } else {
                     size += Files.size(p);
                 }
