@@ -19,7 +19,6 @@ public class MyThread extends Thread implements Runnable {
             e.printStackTrace();
         }
     }
-
     void loop(int n, String obj) throws InterruptedException {
         for (int i = 0; i < n; ++i) {
             TimeUnit.MILLISECONDS.sleep(100);
