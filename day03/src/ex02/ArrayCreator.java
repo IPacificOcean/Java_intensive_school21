@@ -12,8 +12,10 @@ public class ArrayCreator {
 
     int[] getRandomArray() {
 
-        return new SplittableRandom().ints(arraySize_, -1000, 1000).parallel().toArray();
+        return new SplittableRandom().ints(arraySize_, -1000, 1001).parallel().toArray();
     }
+
+
 }
 
 //    int n = new SplittableRandom().nextInt(0, 11);

@@ -17,6 +17,10 @@ public class Validation {
             try {
                 size_ = Integer.parseInt(args[0].substring("--arraySize=".length()));
                 threadCount_ = Integer.parseInt(args[1].substring("--threadCount=".length()));
+                if (size_ > 2000000 || size_ < 0 || threadCount_ > size_ || threadCount_ < 0) {
+                    System.err.println("incorrect arguments");
+                    System.exit(-1);
+                }
             } catch (NumberFormatException x) {
                 System.err.println("illegal argument, must be an integer. " + x);
             } catch (Exception e) {
