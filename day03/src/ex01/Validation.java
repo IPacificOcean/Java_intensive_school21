@@ -1,7 +1,7 @@
 package ex01;
 
 public class Validation {
-    int check (String[] args) {
+    public int check(String[] args) {
      int n = 0;
     if((args.length >= 1) && args[0].startsWith("--count=")) {
         try {
