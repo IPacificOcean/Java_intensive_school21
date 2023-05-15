@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Downloader {
     private static final int BUFFSIZE = 1024;
-    private final String fileOfUrls_ = "day03/src/ex03/files_urls2.txt";
+    private final String fileOfUrls_ = "day03/src/ex03/files_urls.txt";
     private final String pathResult_ = "day03/src/ex03/download/";
 
     private final List<String> listUrls_ = new ArrayList<>();
