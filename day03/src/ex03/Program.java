@@ -1,5 +1,9 @@
 package ex03;
 
+import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Program {
@@ -10,11 +14,23 @@ public class Program {
 
         Downloader d = new Downloader();
         d.txtToList();
-        for (int i = 0; i < 8; ++i) {
-//            TimeUnit.SECONDS.sleep(5);
-            d.download(i);
+
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        int i = 0;
+        while (i < 10) {
+            executor.submit(() -> {
+                try {
+                    d.download();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            ++i;
         }
+        executor.shutdown();
 
     }
+
+
 
 }
