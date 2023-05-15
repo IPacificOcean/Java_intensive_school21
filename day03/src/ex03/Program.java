@@ -17,7 +17,7 @@ public class Program {
 
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         int i = 0;
-        while (i < 10) {
+        while (i < 8) {
             executor.submit(() -> {
                 try {
                     d.download();
