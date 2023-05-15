@@ -33,14 +33,11 @@ private final Queue<String> listUrls_ = new PriorityQueue<>();
     void download() throws IOException {
 
             while (listUrls_.peek() != null) {
-
                 URL fLoad = new URL(listUrls_.poll());
                 Path p = Paths.get(fLoad.getFile());
                 String fName = p.getFileName().toString();
                 String nameResult_ = pathResult_ + fName;
-                String threadName = Thread.currentThread().getName().split("-", 3)[2];
-                String threadNameCapitalize = threadName.substring(0, 1).toUpperCase() + threadName.substring(1);
-                System.out.println(threadNameCapitalize + " start download file number ");
+                System.out.println(getThreadName() + " start download file number ");
 
                 try {
                     downloadUsingStream(fLoad, nameResult_); // Variant N1 (option)
@@ -48,8 +45,13 @@ private final Queue<String> listUrls_ = new PriorityQueue<>();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println( threadNameCapitalize + " finish download file number ");
+                System.out.println(getThreadName() + " finish download file number ");
             }
+    }
+
+    String getThreadName(){
+        String threadName = Thread.currentThread().getName().split("-", 3)[2];
+        return threadName.substring(0, 1).toUpperCase() + threadName.substring(1);
     }
 
     // Variant N1
