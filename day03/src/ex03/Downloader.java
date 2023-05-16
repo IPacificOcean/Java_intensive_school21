@@ -6,40 +6,42 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class Downloader {
     private static final int BUFFSIZE = 1024;
     private final String fileOfUrls_ = "day03/src/ex03/files_urls.txt";
     private final String pathResult_ = "day03/src/ex03/download/";
-    private final Queue<String> listUrls_ = new PriorityQueue<>();
-    private final Queue<String> numberOfFile_ = new PriorityQueue<>();
+    private final Queue<String[]> listUrls = new LinkedList<>();
 
     void txtToList() {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileOfUrls_))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                Collections.addAll(listUrls_, line.substring(2));
-                Collections.addAll(numberOfFile_, line.substring(0, 2));
+                addLineOfTextToQueue(line);
             }
-            for (String s : listUrls_)
-                System.out.println(s);
+//            for (String[] s : numberOfFile2_)
+//                System.out.println(s[0] + " " + s[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    void download() throws IOException {
+    private void addLineOfTextToQueue(String line) {
+        String [] arr = new String[2];
+        arr[0] = line.substring(0, 2);
+        arr[1] = line.substring(2);
+        Collections.addAll(listUrls, arr);
+    }
 
-        while (listUrls_.peek() != null) {
-            URL fLoad = new URL(takeUrl());
-            String number = takeNumber();
+    void download() throws IOException {
+        while (listUrls.peek() != null) {
+            String[] data = takeUrl();
+            URL fLoad = new URL(data[1]);
             Path p = Paths.get(fLoad.getFile());
             String fName = p.getFileName().toString();
             String nameResult_ = pathResult_ + fName;
-            System.out.println(getThreadName() + " start download file number " + number);
+            System.out.println(getThreadName() + " start download file number " + data[0]);
 
             try {
                 downloadUsingStream(fLoad, nameResult_); // Variant N1 (option)
@@ -47,16 +49,12 @@ public class Downloader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(getThreadName() + " finish download file number " + number);
+            System.out.println(getThreadName() + " finish download file number " + data[0]);
         }
     }
 
-    private synchronized String takeUrl() {
-        return listUrls_.poll();
-    }
-
-    private synchronized String takeNumber() {
-        return numberOfFile_.poll();
+    private synchronized String[] takeUrl() {
+        return listUrls.poll();
     }
 
     private String getThreadName() {

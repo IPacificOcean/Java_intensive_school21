@@ -1,23 +1,22 @@
 package ex03;
 
 import java.io.IOException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Program {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Validation v = new Validation();
         v.check(args);
         int threadCount = v.getThreadCount_();
+        int numberOfFiles = 8;
 
         Downloader d = new Downloader();
         d.txtToList();
 
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         int i = 0;
-        while (i < 8) {
+        while (i < numberOfFiles) {
             executor.submit(() -> {
                 try {
                     d.download();
@@ -28,9 +27,5 @@ public class Program {
             ++i;
         }
         executor.shutdown();
-
     }
-
-
-
 }
