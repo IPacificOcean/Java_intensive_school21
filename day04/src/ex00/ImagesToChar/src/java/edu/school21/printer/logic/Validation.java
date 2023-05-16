@@ -30,6 +30,7 @@ public class Validation {
                 if (!Files.exists(file)) {
                     exit(args[2] + "file does not exist");
                 }
+                pathToImg_ = args[0];
 
             } catch (Exception e) {
                 e.printStackTrace();
