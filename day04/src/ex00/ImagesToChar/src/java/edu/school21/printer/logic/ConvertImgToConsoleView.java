@@ -24,6 +24,10 @@ public class ConvertImgToConsoleView {
         printImg(height, width, bufferedImage);
     }
 
+    /* setting for java.bmp
+    *   for (int i = 0; i < height; i+=5) {
+            for (int j = 0; j < width; j+=3) {
+    * */
     private void  printImg(int height, int width, BufferedImage bi) {
         int blackColor = 0xFF000000;
 
