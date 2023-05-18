@@ -11,7 +11,7 @@
     Command: cp -r src/resources target
 
   3) // create an archive jar
-    Command: jar -cfm target/printer-img.jar src/manifest.txt -C target .
+    Command: jar -cfm target/images-to-chars-printer.jar src/manifest.txt -C target .
 
   4) // run application
-    Command: java -jar target/printer-img.jar _ #
+    Command: java -jar target/images-to-chars-printer.jar _ #
