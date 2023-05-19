@@ -2,8 +2,6 @@ package edu.school21.printer.app;
 
 import edu.school21.printer.logic.*;
 
-//import edu.school21.printer.logic.ConvertImgToConsoleView;
-//import edu.school21.printer.logic.Validation;
 
 import java.io.IOException;
 
@@ -11,9 +9,10 @@ public class Program {
     public static void main(String[] args) {
         String  pathToImg = "src/resources/it.bmp";
         Validation v = new Validation();
+        ParserCL pcl = new ParserCL();
         v.check(args, pathToImg);
-        v.commandLineParser(args);
-        ConvertImgToConsoleView img = new ConvertImgToConsoleView(v, pathToImg);
+        pcl.commandLineParser(args);
+        ConvertImgToConsoleView img = new ConvertImgToConsoleView(pcl, pathToImg);
         try {
             img.convertAndOutputInConsole();
         } catch (IOException e) {

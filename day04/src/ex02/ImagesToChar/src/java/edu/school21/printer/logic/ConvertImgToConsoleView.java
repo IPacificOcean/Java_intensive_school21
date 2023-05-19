@@ -7,43 +7,47 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import com.diogonunes.jcdp.color.ColoredPrinter;
-import com.diogonunes.jcdp.color.api.Ansi;
+import com.diogonunes.jcdp.color.api.Ansi.FColor;
 
 
 public class ConvertImgToConsoleView {
 
-    private String  white_;
+    private final String  white_;
 
-    private String  black_;
+    private final String  black_;
     private final String  pathToImg_;
 
-    public ConvertImgToConsoleView(Validation v, String pathToImg) {
-        this.white_ = v.getWhite_();
-        this.black_ = v.getBlack_();
+    public ConvertImgToConsoleView(ParserCL pcl, String pathToImg) {
+        this.white_ = pcl.getWhite_();
+        this.black_ = pcl.getBlack_();
         this.pathToImg_ = Paths.get(pathToImg).toAbsolutePath().normalize().toString();
     }
 
-     public void convertAndOutputInConsole() throws IOException {
+    public void convertAndOutputInConsole() throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File((pathToImg_)));
+
         int height = bufferedImage.getHeight();
         int width = bufferedImage.getWidth();
+
         printImg(height, width, bufferedImage);
     }
 
-    /* setting for java.bmp
-    *   for (int i = 0; i < height; i+=5) {
-            for (int j = 0; j < width; j+=3) {
-    * */
     private void  printImg(int height, int width, BufferedImage bi) {
+        ColoredPrinter foreground =
+                new ColoredPrinter.Builder(1, false).foreground(FColor.valueOf(black_)).build();
+
+        ColoredPrinter background =
+                new ColoredPrinter.Builder(1, false).foreground(FColor.valueOf(white_)).build();
         int blackColor = 0xFF000000;
+        System.out.println(white_ + " " + black_);
 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 int color = bi.getRGB(j, i);
                 if (color == blackColor) {
-                    System.out.print('#');
+                    foreground.print('\u2588');
                 } else {
-                    System.out.print('_');
+                    background.print('\u2588');
                 }
             }
             System.out.println();

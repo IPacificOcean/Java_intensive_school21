@@ -1,9 +1,9 @@
 package edu.school21.printer.app;
 
-//import edu.school21.printer.logic.*;
+import edu.school21.printer.logic.*;
 
-import edu.school21.printer.logic.ConvertImgToConsoleView;
-import edu.school21.printer.logic.Validation;
+//import edu.school21.printer.logic.ConvertImgToConsoleView;
+//import edu.school21.printer.logic.Validation;
 
 import java.io.IOException;
 
