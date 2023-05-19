@@ -39,7 +39,6 @@ public class ConvertImgToConsoleView {
         ColoredPrinter background =
                 new ColoredPrinter.Builder(1, false).foreground(FColor.valueOf(white_)).build();
         int blackColor = 0xFF000000;
-        System.out.println(white_ + " " + black_);
 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
