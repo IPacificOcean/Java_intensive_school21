@@ -4,18 +4,22 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.diogonunes.jcdp.color.ColoredPrinter;
+import com.diogonunes.jcdp.color.api.Ansi;
+
+
 public class ConvertImgToConsoleView {
-    private final char  white_;
-    private final char  black_;
+
+    private String  white_;
+
+    private String  black_;
     private final String  pathToImg_;
 
-    public ConvertImgToConsoleView(String[] args, String pathToImg) {
-        this.white_ = args[0].charAt(0);
-        this.black_ = args[1].charAt(0);
+    public ConvertImgToConsoleView(Validation v, String pathToImg) {
+        this.white_ = v.getWhite_();
+        this.black_ = v.getBlack_();
         this.pathToImg_ = Paths.get(pathToImg).toAbsolutePath().normalize().toString();
     }
 
@@ -37,9 +41,9 @@ public class ConvertImgToConsoleView {
             for (int j = 0; j < width; ++j) {
                 int color = bi.getRGB(j, i);
                 if (color == blackColor) {
-                    System.out.print(black_);
+                    System.out.print('#');
                 } else {
-                    System.out.print(white_);
+                    System.out.print('_');
                 }
             }
             System.out.println();
