@@ -27,7 +27,7 @@
    Command: javac -d target src/java/edu/school21/printer/app/*.java src/java/edu/school21/printer/logic/*.java
 
 // universal variant
-    Command: javac src/**/*.java -d target -sourcepath src
+    Command: javac src/**/*.java -d target -classpath target -sourcepath src
 
 5)
 // copy directory resource to target

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Program {
     public static void main(String[] args) {
-        String  pathToImg = "src/resources/it.bmp";
+        String  pathToImg = "target/resources/it.bmp";
         Validation v = new Validation();
         ParserCL pcl = new ParserCL();
         v.check(args, pathToImg);
