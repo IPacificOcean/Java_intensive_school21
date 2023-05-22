@@ -1,4 +1,4 @@
 package edu.school21.chat.repositories;
 
-public interface DataSourse {
+public class SecureStatements {
 }

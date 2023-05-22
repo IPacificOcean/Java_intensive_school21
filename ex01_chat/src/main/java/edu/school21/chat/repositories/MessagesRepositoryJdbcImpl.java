@@ -1,10 +1,20 @@
 package edu.school21.chat.repositories;
 
-public class MessagesRepositoryJdbcImpl {
-    private
-    DataSourse dataSourse_;
+import edu.school21.chat.models.Message;
 
-    public MessagesRepositoryJdbcImpl(DataSourse dataSourse) {
-        dataSourse_ = dataSourse;
+import javax.sql.DataSource;
+import java.util.Optional;
+
+public class MessagesRepositoryJdbcImpl implements MessagesRepository {
+
+    DataSource dataSource_;
+
+    public MessagesRepositoryJdbcImpl(DataSource dataSource) {
+        dataSource_ = dataSource;
+    }
+
+    @Override
+    public Optional<Message> findById(Long id) {
+        return Optional.empty();
     }
 }

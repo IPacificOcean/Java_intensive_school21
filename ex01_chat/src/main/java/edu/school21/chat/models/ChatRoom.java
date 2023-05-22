@@ -7,13 +7,13 @@ public class ChatRoom {
     private final Long id_;
     private final String name_;
     private final User owner_;
-    private List<Message> messages_;
+    private final List<Message> messages_;
 
-    public ChatRoom(Long id, String name, User owner) {
+    public ChatRoom(Long id, String name, User owner, List<Message> messages) {
         id_ = id;
         name_ = name;
         owner_ = owner;
-//        messages_ = messages;
+        messages_ = messages;
     }
 
     @Override
@@ -23,10 +23,6 @@ public class ChatRoom {
         ChatRoom chatRoom = (ChatRoom) o;
         return id_.equals(chatRoom.id_) && name_.equals(chatRoom.name_)
                 && owner_.equals(chatRoom.owner_) && Objects.equals(messages_, chatRoom.messages_);
-    }
-
-    public void setMessages_(List<Message> messages) {
-        messages_ = messages;
     }
 
     @Override

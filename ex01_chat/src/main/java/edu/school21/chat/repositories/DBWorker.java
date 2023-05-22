@@ -1,27 +1,26 @@
 package edu.school21.chat.repositories;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DBWorker {
-    private Connection connection;
+    String configFile = "src/main/resources/db.properties";
+    HikariConfig cfg;
+    HikariDataSource ds;
 
     public DBWorker() {
-
-        try {
-            String URL = "jdbc:postgresql://localhost:5432/manytomany_db";
-            connection = DriverManager.getConnection(URL);
-
-            boolean res = !connection.isClosed();
-            System.out.println("__________________________" + res);
-        } catch (SQLException e) {
-            System.out.println("error connection");
-        }
+        cfg = new HikariConfig(configFile);
+        ds = new HikariDataSource(cfg);
     }
 
-    public Connection getConnection() {
-        return connection;
+    public HikariDataSource getDS() {
+        return ds;
+    }
+
+    public Connection getConnection() throws SQLException {
+        return ds.getConnection();
     }
 }

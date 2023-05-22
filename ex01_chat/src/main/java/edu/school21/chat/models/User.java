@@ -7,22 +7,14 @@ public class User {
     private final Long id_;
     private final String login_;
     private final String password_;
-    private List<ChatRoom> createdRooms_;
-    private List<ChatRoom> socializingRooms_;
+    private final List<ChatRoom> createdRooms_;
+    private final List<ChatRoom> socializingRooms_;
 
-    public User(Long id, String login, String password) {
+    public User(Long id, String login, String password, List<ChatRoom> createdRooms, List<ChatRoom> socializingRooms) {
         id_ = id;
         login_ = login;
         password_ = password;
-//        createdRooms_ = createdRooms;
-//        socializingRooms_ = socializingRooms;
-    }
-
-    void  setCreatedRooms_(List<ChatRoom> createdRooms) {
         createdRooms_ = createdRooms;
-    }
-
-    public void setSocializingRooms_(List<ChatRoom> socializingRooms) {
         socializingRooms_ = socializingRooms;
     }
 
@@ -47,7 +39,7 @@ public class User {
                 "id_=" + id_ +
                 ", login_='" + login_ + '\'' +
                 ", password_='" + password_ + '\'' +
-                ", existsRooms_=" + createdRooms_ +
+                ", createdRooms_=" + createdRooms_ +
                 ", socializingRooms_=" + socializingRooms_ +
                 '}';
     }
