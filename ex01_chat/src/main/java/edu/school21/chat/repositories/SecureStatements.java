@@ -1,5 +1,6 @@
 package edu.school21.chat.repositories;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -7,9 +8,9 @@ import java.sql.Statement;
 import java.util.Objects;
 
 public class SecureStatements {
-    DBWorker connectPool_;
+    DataSource connectPool_;
 
-    public SecureStatements(DBWorker connectPool) {
+    public SecureStatements(DataSource connectPool) {
         connectPool_ = connectPool;
     }
 
