@@ -1,45 +1,39 @@
 package edu.school21.chat.app;
 
 
+import edu.school21.chat.models.Message;
+import edu.school21.chat.models.User;
+import edu.school21.chat.repositories.DBWorker;
 
-import org.postgresql.Driver;
-
-import java.sql.*;
-//import java.sql.Driver;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class Program {
-    private static final String URL = "jdbc:postgresql://localhost:5432/manytomany_db";
-
     public static void main(String[] args) {
 
         try {
+            DBWorker dbWorker = new DBWorker();
+            Statement statement = dbWorker.getConnection().createStatement();
+            ResultSet resU
+                    = statement.executeQuery("select * from users");
+            while (resU.next()) {
+                User user = new User(resU.getLong("id"), resU.getString("login"),  resU.getString("password"));
 
-            Driver driver = new Driver();
-            DriverManager.deregisterDriver(driver);
+                System.out.println(user.toString());
+            }
+
+//            ResultSet resM = statement.executeQuery("select * from users");
+//            while (resM.next()) {
+//                Message message = new Message(resM.getLong("id"), resM.getLong("author"),  resM.getLong("room"),
+//                resM.getString("text"), resM.getTime("date_time"));
+//
+//                System.out.println(message.toString());
+//            }
         } catch (SQLException e) {
-            System.out.println("error");
+            System.out.println("error connection in program");
         }
-
-        try (Connection connection = DriverManager.getConnection(URL);
-             Statement statement = connection.createStatement()) {
-            System.out.println(connection.isClosed());
-//            statement.execute("insert into book (name) values ('Pushkin')");
-//           int res =  statement.executeUpdate("update book set name = 'Go' where id=2");
-//            ResultSet res = statement.executeQuery("select * from book");
-//            statement.addBatch("insert into book (name) values ('Ibsen')");
-//            statement.addBatch("insert into book (name) values ('London')");
-//            statement.addBatch("insert into book (name) values ('Akunin')");
-            statement.addBatch("update book set name = 'Andersen' where id=1");
-            statement.executeBatch();
-            statement.clearBatch();
-            boolean res = statement.isClosed();
-
-            System.out.println(res);
-        } catch (SQLException e) {
-            System.out.println("error connection");
-        }
-
-        System.out.println("hello");
+        System.out.println("__________________________bay");
     }
 }

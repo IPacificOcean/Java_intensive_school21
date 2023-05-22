@@ -7,15 +7,23 @@ public class User {
     private final Long id_;
     private final String login_;
     private final String password_;
-    private final List<ChatRoom> createdRooms_;
-    private final List<ChatRoom> socializingRooms_;
+    private List<ChatRoom> createdRooms_;
+    private List<ChatRoom> socializingRooms_;
 
-    public User(Long id, String login, String password, List<ChatRoom> existsRooms, List<ChatRoom> socializingRooms) {
+    public User(Long id, String login, String password) {
         id_ = id;
         login_ = login;
         password_ = password;
-        this.createdRooms_ = existsRooms;
-        this.socializingRooms_ = socializingRooms;
+//        createdRooms_ = createdRooms;
+//        socializingRooms_ = socializingRooms;
+    }
+
+    void  setCreatedRooms_(List<ChatRoom> createdRooms) {
+        createdRooms_ = createdRooms;
+    }
+
+    public void setSocializingRooms_(List<ChatRoom> socializingRooms) {
+        socializingRooms_ = socializingRooms;
     }
 
     @Override
