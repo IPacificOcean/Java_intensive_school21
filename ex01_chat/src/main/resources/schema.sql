@@ -1,3 +1,7 @@
+drop schema if exists chat cascade;
+
+create schema if not exists chat;
+
 create table if not exists users (
     id serial primary key,
     login text not null,
