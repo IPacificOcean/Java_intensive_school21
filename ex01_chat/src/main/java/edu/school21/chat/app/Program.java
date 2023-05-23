@@ -1,6 +1,7 @@
 package edu.school21.chat.app;
 
 
+import edu.school21.chat.models.Message;
 import edu.school21.chat.repositories.DBWorker;
 import edu.school21.chat.repositories.MessagesRepository;
 import edu.school21.chat.repositories.MessagesRepositoryJdbcImpl;
@@ -20,24 +21,9 @@ public class Program {
 
         MessagesRepository mr = new MessagesRepositoryJdbcImpl(dbWorker);
         SecureStatements secureStatements = new SecureStatements(dbWorker.getDS());
-        mr.findById(3L);
+        Message message = mr.findById(3L).get();
+        System.out.println(message);
 
-//        secureStatements.preparedStatement(GET_ALL, (statement) -> {
-////                    statement.setInt(1, 8);
-////                    statement.setString(2, "Leskov");
-////                    statement.execute();
-//
-////                    statement.setInt(1, 8);
-////                    statement.executeUpdate();
-//
-//                    ResultSet res = statement.executeQuery();
-//                    while (res.next()) {
-//                        int id = res.getInt("id");
-//                        String author = res.getString("name");
-//                        System.out.println("id = " + id + " author: " + author);
-//                    }
-//                }
-//        );
 
         System.out.println("__________________________bay");
     }

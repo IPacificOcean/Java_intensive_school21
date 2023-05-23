@@ -36,11 +36,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id_=" + id_ +
-                ", login_='" + login_ + '\'' +
-                ", password_='" + password_ + '\'' +
-                ", createdRooms_=" + createdRooms_ +
-                ", socializingRooms_=" + socializingRooms_ +
+                "id=" + id_ +
+                ", login='" + login_ + '\'' +
+                ", password='" + password_ + '\'' +
+                ", createdRooms=" + createdRooms_ +
+                ", socializingRooms=" + socializingRooms_ +
                 '}';
     }
 }

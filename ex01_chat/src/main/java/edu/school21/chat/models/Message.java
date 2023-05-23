@@ -36,12 +36,12 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "id_=" + id_ +
-                ", author_=" + author_ +
-                ", room_=" + room_ +
-                ", text_='" + text_ + '\'' +
-                ", dateTime_=" + dateTime_ +
+        return "Message : {\n" +
+                "id = " + id_ +
+                ", \nauthor = " + author_ +
+                ", \nroom = " + room_ +
+                ", \ntext = '" + text_ + '\'' +
+                ", \ndateTime = " + dateTime_ +
                 '}';
     }
 }

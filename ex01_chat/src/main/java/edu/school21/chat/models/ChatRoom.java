@@ -33,10 +33,10 @@ public class ChatRoom {
     @Override
     public String toString() {
         return "ChatRoom{" +
-                "id_=" + id_ +
-                ", name_='" + name_ + '\'' +
-                ", owner_=" + owner_ +
-                ", messages_=" + messages_ +
+                "id=" + id_ +
+                ", name='" + name_ + '\'' +
+                ", owner=" + owner_ +
+                ", messages=" + messages_ +
                 '}';
     }
 }
