@@ -34,8 +34,8 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository {
                 String text = res.getString("text");
                 Timestamp dateTime = res.getTimestamp("date_time");
 
-                User author = findUserById(authorId).get();
-                ChatRoom room = findChatRoomById(roomId).get();
+                User author = findUserById(authorId).orElse(null);
+                ChatRoom room = findChatRoomById(roomId).orElse(null);
 
                 return Optional.of(new Message(id, author, room, text, dateTime));
             });
