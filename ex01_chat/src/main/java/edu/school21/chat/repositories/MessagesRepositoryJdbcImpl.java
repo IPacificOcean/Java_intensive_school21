@@ -46,7 +46,7 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository {
     }
 
     public Optional<User> findUserById(Long id) {
-        String userQuery = "SELECT * FROM chat.users WHERE id = ?";
+        String userQuery = "select * from chat.users where id = ?";
         try {
             return pStatement.preparedStatement(userQuery, (statement) -> {
                 statement.setLong(1, id);
