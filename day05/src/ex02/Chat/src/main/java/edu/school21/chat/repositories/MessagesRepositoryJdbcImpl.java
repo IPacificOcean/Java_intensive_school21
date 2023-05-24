@@ -45,6 +45,46 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository {
         }
         return Optional.empty();
     }
+// author not defined
+@Override
+public void save(Message message) throws SQLException {
+    String messageStatement = "insert into chat.message (author, room, text, date_time) values (?,?,?,?)";
+    checkBeforeSave(message);
+
+    pStatement.preparedStatement(messageStatement, (statement) -> {
+        statement.setLong(1, message.getAuthor().getId());
+        statement.setLong(2, message.getRoom().getId());
+        statement.setString(3, message.getText());
+        statement.setTimestamp(4, Timestamp.valueOf(message.getDateTime()));
+
+        int checkUpdate = statement.executeUpdate();
+        if (checkUpdate != 0) {
+            ResultSet res = statement.getGeneratedKeys();
+            if (res.next()) {
+                long id = res.getLong(1);
+                message.setId(id);
+            } else {
+                throw new NotSavedSubEntityException("id does not exist");
+            }
+        }
+    });
+}
+
+    void checkBeforeSave(Message message) {
+        if (message.getAuthor() == null) {
+            throw new NotSavedSubEntityException("Author not defined");
+        }
+        if (message.getRoom() == null) {
+            throw new NotSavedSubEntityException("ChatRoom not defined");
+        }
+
+//        if (!findUserById(message.getAuthor().getId()).isPresent()) {
+//            throw new NotSavedSubEntityException("User not found");
+//        }
+//        if (!findChatRoomById(message.getRoom().getId()).isPresent()) {
+//            throw new NotSavedSubEntityException("ChatRoom not found");
+//        }
+    }
 
     public Optional<User> findUserById(Long id) {
         String userQuery = "select * from chat.users where id = ?";
@@ -85,4 +125,6 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository {
         }
         return Optional.empty();
     }
+
+
 }

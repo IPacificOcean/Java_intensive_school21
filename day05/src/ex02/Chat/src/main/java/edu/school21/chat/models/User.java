@@ -18,6 +18,26 @@ public class User {
         socializingRooms_ = socializingRooms;
     }
 
+    public Long getId() {
+        return id_;
+    }
+
+    public String getLogin() {
+        return login_;
+    }
+
+    public String getPassword() {
+        return password_;
+    }
+
+    public List<ChatRoom> getCreatedRooms() {
+        return createdRooms_;
+    }
+
+    public List<ChatRoom> getSocializingRooms() {
+        return socializingRooms_;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -61,7 +61,7 @@ public class SecureStatements {
             throws SQLException {
         Objects.requireNonNull(consumer);
         connection((connect) -> {
-            try (PreparedStatement pStatement = connect.prepareStatement(sql)) {
+            try (PreparedStatement pStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 consumer.accept(pStatement);
             }
         });
@@ -71,7 +71,7 @@ public class SecureStatements {
                                    SQLFunction<? super PreparedStatement, ? extends R> function) throws SQLException {
         Objects.requireNonNull(function);
         return connection((connect) -> {
-            try (PreparedStatement pStatement = connect.prepareStatement(sql)) {
+            try (PreparedStatement pStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 return function.apply(pStatement);
             }
         });

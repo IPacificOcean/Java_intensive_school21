@@ -2,12 +2,11 @@ package edu.school21.chat.models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Objects;
 
 
 public class Message {
-    private final Long id_;
+    private Long id_;
     private final User author_;
     private final ChatRoom room_;
     private final String text_;
@@ -20,6 +19,30 @@ public class Message {
         room_ = room;
         text_ = text;
         dateTime_ = dateTime;
+    }
+
+    public Long getId() {
+        return id_;
+    }
+
+    public User getAuthor() {
+        return author_;
+    }
+
+    public ChatRoom getRoom() {
+        return room_;
+    }
+
+    public String getText() {
+        return text_;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime_;
+    }
+
+    public void setId(Long id) {
+        this.id_ = id;
     }
 
     @Override

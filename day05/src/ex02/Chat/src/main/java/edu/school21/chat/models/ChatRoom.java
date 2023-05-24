@@ -16,6 +16,22 @@ public class ChatRoom {
         messages_ = messages;
     }
 
+    public Long getId() {
+        return id_;
+    }
+
+    public String getName() {
+        return name_;
+    }
+
+    public User getOwner() {
+        return owner_;
+    }
+
+    public List<Message> getMessages() {
+        return messages_;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
