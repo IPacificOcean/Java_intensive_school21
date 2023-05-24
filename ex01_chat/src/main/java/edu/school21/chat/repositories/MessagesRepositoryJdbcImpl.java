@@ -22,7 +22,7 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository {
     @Override
     public Optional<Message> findById(Long id) {
         try {
-            String msgById_ = "select * from message where id = ?";
+            String msgById_ = "select * from chat.message where id = ?";
             return pStatement.preparedStatement(msgById_, (statement) -> {
                 statement.setLong(1, id);
                 ResultSet res = statement.executeQuery();
@@ -46,7 +46,7 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository {
     }
 
     public Optional<User> findUserById(Long id) {
-        String userQuery = "SELECT * FROM users WHERE id = ?";
+        String userQuery = "SELECT * FROM chat.users WHERE id = ?";
         try {
             return pStatement.preparedStatement(userQuery, (statement) -> {
                 statement.setLong(1, id);
@@ -69,7 +69,7 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository {
 
     public Optional<ChatRoom> findChatRoomById(Long id) {
         try {
-            String sql = "select * from chatroom where id = ?";
+            String sql = "select * from chat.chatroom where id = ?";
             return pStatement.preparedStatement(sql, (stmt) -> {
                 stmt.setLong(1, id);
                 ResultSet res = stmt.executeQuery();

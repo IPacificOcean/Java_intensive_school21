@@ -22,6 +22,5 @@ public class Program {
         IOData io = new IOData();
         long numberId = io.input();
         io.output(numberId, mr);
-
     }
 }

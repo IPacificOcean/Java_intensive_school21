@@ -9,16 +9,18 @@ import java.util.stream.Stream;
 
 public class CreateTables {
     SecureStatements dbConnect_;
+
     public CreateTables(DBWorker dbConnect) {
         dbConnect_ = new SecureStatements(dbConnect.getDS());
     }
+
     public void CreateTab(String schema, String data) {
-        try (Stream schemaPath = Files.lines(Paths.get(schema).toAbsolutePath().normalize());
-             Stream dataPath = Files.lines(Paths.get(data).toAbsolutePath().normalize())
+        try (Stream<String> schemaPath = Files.lines(Paths.get(schema).toAbsolutePath().normalize());
+             Stream<String> dataPath = Files.lines(Paths.get(data).toAbsolutePath().normalize())
         ) {
 
-            String schemaQwery = schemaPath.collect(Collectors.joining(System.lineSeparator())).toString();
-            String dataQwery  = dataPath.collect(Collectors.joining(System.lineSeparator())).toString();
+            String schemaQwery = schemaPath.collect(Collectors.joining(System.lineSeparator()));
+            String dataQwery = dataPath.collect(Collectors.joining(System.lineSeparator()));
 
             dbConnect_.statement((statement) -> {
                 statement.execute(schemaQwery);

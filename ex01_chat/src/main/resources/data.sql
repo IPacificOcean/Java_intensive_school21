@@ -1,18 +1,18 @@
-insert into users (login, password)
+insert into chat.users (login, password)
 values ('Nielsen', 'EOI88QYB3HF'),
        ('Joyce', 'XJW83FCK1SF'),
        ('Mcdowell', 'FUP45LSU4RX'),
        ('Burgess', 'EEP89PJL3DC'),
        ('Jacobs', 'SXS92LCM8ZO');
 
-insert into chatroom (name, owner)
+insert into chat.chatroom (name, owner)
 values ('Nielsens_room', '1'),
        ('Joyces_room', '2'),
        ('Mcdowells_room', '3'),
        ('Burgesses_room', '4'),
        ('Jacobses_room', '5');
 
-insert into message (author, room, text, date_time)
+insert into chat.message (author, room, text, date_time)
 values (1, 1, 'Quisque imperdiet, erat nonummy ultricies ornare', '2022-12-05'),
        (2, 1, 'ante lectus convallis est', '2022-09-19'),
        (3, 1, 'Aliquam ornare, libero at auctor ullamcorper', '2021-05-14'),
