@@ -21,5 +21,5 @@ create table if not exists chat.message (
     author bigint references chat.users(id),
     room bigint references chat.chatroom(id),
     text text,
-    date_time timestamp
+    date_time timestamp default CURRENT_TIMESTAMP
 );
