@@ -28,8 +28,8 @@ public class Program {
         Optional<Message> messageOptional = mr.findById(4L);
        if (messageOptional.isPresent()) {
            Message message = messageOptional.get();
-           message.setText("bay");
-           message.setDateTime(null);
+           message.setText("bay, baby");
+           message.setDateTime(LocalDateTime.now());
            mr.update(message);
        }
         System.out.println(messageOptional);
