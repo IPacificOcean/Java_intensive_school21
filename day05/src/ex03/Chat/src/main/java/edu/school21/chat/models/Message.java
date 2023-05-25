@@ -70,12 +70,12 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message : {\n" +
+        return  "Message : {\n" +
                 "id = " + id_ +
                 ", \nauthor = " + author_ +
                 ", \nroom = " + room_ +
                 ", \ntext = '" + text_ + '\'' +
-                ", \ndateTime = " + dateTime_.format(dateTimeFormat_) +
+                ", \ndateTime = " + ((dateTime_ != null) ? dateTime_.format(dateTimeFormat_) : null) +
                 '}';
     }
 }

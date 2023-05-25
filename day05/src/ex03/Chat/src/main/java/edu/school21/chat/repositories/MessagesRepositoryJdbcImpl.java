@@ -126,22 +126,24 @@ public void save(Message message) throws SQLException {
     @Override
     public void update(Message message) throws SQLException {
         String messageStatement = "update chat.message set (author, room , text, date_time) = (?, ?, ?, ?) where id = ?";
-//        String messageStatement = "update message set author = ?, room = ?, text = ?, date_time = ? where id = ?";
+        Timestamp localDateTime = null;
         checkBeforeSave(message);
 
-        if (message.getText() == null) {
-            message.setText("");
+//        if (message.getText() == null) {
+//            message.setText(null); // todo check?
+//        }
+
+        if (message.getDateTime() != null) {
+//            message.setDateTime(LocalDateTime.now());
+            localDateTime = Timestamp.valueOf(message.getDateTime());// todo check?
         }
 
-        if (message.getDateTime() == null) {
-            message.setDateTime(LocalDateTime.now());
-        }
-
+        Timestamp finalLocalDateTime = localDateTime;
         pStatement.preparedStatement(messageStatement, (statement) -> {
             statement.setLong(1, message.getAuthor().getId());
             statement.setLong(2, message.getRoom().getId());
             statement.setString(3, message.getText());
-            statement.setTimestamp(4, Timestamp.valueOf(message.getDateTime()));
+            statement.setTimestamp(4, finalLocalDateTime);
             statement.setLong(5, message.getId());
 
             int checkUpdate = statement.executeUpdate();

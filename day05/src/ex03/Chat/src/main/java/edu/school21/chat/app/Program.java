@@ -1,15 +1,14 @@
 package edu.school21.chat.app;
 
 
-import edu.school21.chat.models.ChatRoom;
 import edu.school21.chat.models.Message;
-import edu.school21.chat.models.User;
-import edu.school21.chat.repositories.*;
+import edu.school21.chat.repositories.CreateTables;
+import edu.school21.chat.repositories.DBWorker;
+import edu.school21.chat.repositories.MessagesRepository;
+import edu.school21.chat.repositories.MessagesRepositoryJdbcImpl;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Optional;
 
 
@@ -29,8 +28,8 @@ public class Program {
         Optional<Message> messageOptional = mr.findById(4L);
        if (messageOptional.isPresent()) {
            Message message = messageOptional.get();
-           message.setText("Bay, world");
-           message.setDateTime(null);
+           message.setText(null);
+           message.setDateTime(LocalDateTime.now());
            mr.update(message);
        }
         System.out.println(messageOptional);
