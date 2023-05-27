@@ -18,3 +18,6 @@ values (1, 1, 'Quisque imperdiet, erat nonummy ultricies ornare', '2022-12-05'),
        (3, 1, 'Aliquam ornare, libero at auctor ullamcorper', '2021-05-14'),
        (4, 1, 'Curabitur consequat, lectus sit amet luctus', '2022-04-20'),
        (5, 1, 'Quisque nonummy ipsum non arcu.', '2021-05-05');
+
+insert into chat.user_x_chatroom
+values (1, 1), (2, 2), (3, 3), (4, 4), (5, 5);
