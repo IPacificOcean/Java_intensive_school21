@@ -28,6 +28,8 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
         List<User> usersFromSpecificPage = new ArrayList<>();
         String findOfUsers = sqlToString("src/main/resources/allUsersQuery.sql");
         pStatement_.preparedStatement(findOfUsers, (statement) -> {
+            statement.setInt(1, page*size-1);
+            statement.setInt(2, size);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
                 usersFromSpecificPage.add(

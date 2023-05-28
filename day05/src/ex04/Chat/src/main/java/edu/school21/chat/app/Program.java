@@ -32,9 +32,9 @@ public class Program {
 //        System.out.println(messageOptional);
 
         UsersRepositoryJdbcImpl urj = new UsersRepositoryJdbcImpl(dbWorker);
-        urj.findAll(1,1);
+//        urj.findAll(0,4);
 
-        System.out.println(urj.findAll(1,1));
+        System.out.println(urj.findAll(3,4));
     }
     }
 
