@@ -21,7 +21,7 @@ public class Program {
     public static void main(String[] args) throws SQLException {
         DBWorker dbWorker = new DBWorker();
 //        MessagesRepository mr = new MessagesRepositoryJdbcImpl(dbWorker);
-//        createTables(dbWorker);
+        createTables(dbWorker);
 //        Optional<Message> messageOptional = mr.findById(4L);
 //       if (messageOptional.isPresent()) {
 //           Message message = messageOptional.get();
@@ -29,10 +29,12 @@ public class Program {
 //           message.setDateTime(LocalDateTime.now());
 //           mr.update(message);
 //       }
+//        System.out.println(messageOptional);
 
         UsersRepositoryJdbcImpl urj = new UsersRepositoryJdbcImpl(dbWorker);
         urj.findAll(1,1);
-//        System.out.println(messageOptional);
+
+        System.out.println(urj.findAll(1,1));
     }
     }
 

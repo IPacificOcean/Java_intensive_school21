@@ -3,9 +3,9 @@ with user_page as (
     from chat.users
     offset 0 limit 5),
      t as (
-         select up.id           as user_id,
-                up.login        as user_login,
-                up.password     as user_pass,
+         select up.id           as u_id,
+                up.login        as u_login,
+                up.password     as u_pass,
                 cr.id           as owner_chat_id,
                 cr.name         as owner_chat_name,
                 ucr.chatroom_id as socializes_chat_id
