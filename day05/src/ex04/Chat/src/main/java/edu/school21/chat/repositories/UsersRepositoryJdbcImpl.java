@@ -1,5 +1,6 @@
 package edu.school21.chat.repositories;
 
+import edu.school21.chat.models.ChatRoom;
 import edu.school21.chat.models.User;
 
 import javax.sql.DataSource;
@@ -32,15 +33,41 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
             statement.setInt(2, size);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
-                usersFromSpecificPage.add(
-                new User(res.getLong("u_id"),
+                User user = new User(
+                        res.getLong("u_id"),
                         res.getString("u_login"),
                         res.getString("u_pass"),
                         new ArrayList<>(),
-                        new ArrayList<>()));
+                        new ArrayList<>());
+                if (!usersFromSpecificPage.contains(user)) {
+                    usersFromSpecificPage.add(user);
+                }
+
+                user = usersFromSpecificPage.get(usersFromSpecificPage.size() - 1);
+                long owner_chat_id = res.getLong("owner_chat_id");
+                if (owner_chat_id != 0 &&
+                        user.getCreatedRooms().stream().noneMatch(chatRoom -> chatRoom.getId() == owner_chat_id)) {
+                    ChatRoom ownerChat = new ChatRoom(
+                            res.getLong("owner_chat_id"),
+                            res.getString("owner_chat_name"),
+                            null,
+                            null);
+                    user.getCreatedRooms().add(ownerChat);
+                }
+
+                long socializes_chat_id = res.getLong("socializes_chat_id");
+                if (socializes_chat_id != 0 &&
+                        user.getSocializingRooms().stream().noneMatch(chatRoom -> chatRoom.getId() == socializes_chat_id)) {
+                    ChatRoom socializingChat = new ChatRoom(
+                            res.getLong("socializes_chat_id"),
+                            res.getString("socializes_chat_name"),
+                            null,
+                            null);
+                    user.getSocializingRooms().add(socializingChat);
+                }
             }
+            return usersFromSpecificPage;
         });
-//        System.out.println(findOfUsers);
         return usersFromSpecificPage;
     }
 

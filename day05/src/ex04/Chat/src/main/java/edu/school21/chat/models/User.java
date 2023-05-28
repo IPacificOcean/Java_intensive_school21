@@ -1,5 +1,6 @@
 package edu.school21.chat.models;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,14 +56,16 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "User{\n" +
                 "id=" + id_ +
-                ", login='" + login_ + '\'' +
-                ", password='" + password_ + '\'' +
-                ", createdRooms=" + createdRooms_ +
-                ", socializingRooms=" + socializingRooms_ +
+                ", \nlogin='" + login_ + '\'' +
+                ", \npassword='" + password_ + '\'' +
+                ", \ncreatedRooms=" + createdRooms_ +
+                ", \nsocializingRooms=" + socializingRooms_ +
                 '}';
     }
+
+
 }
 
 

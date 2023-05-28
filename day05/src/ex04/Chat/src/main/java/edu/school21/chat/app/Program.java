@@ -2,10 +2,13 @@ package edu.school21.chat.app;
 
 
 import edu.school21.chat.models.Message;
+import edu.school21.chat.models.User;
 import edu.school21.chat.repositories.*;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -20,21 +23,15 @@ public class Program {
 
     public static void main(String[] args) throws SQLException {
         DBWorker dbWorker = new DBWorker();
-//        MessagesRepository mr = new MessagesRepositoryJdbcImpl(dbWorker);
         createTables(dbWorker);
-//        Optional<Message> messageOptional = mr.findById(4L);
-//       if (messageOptional.isPresent()) {
-//           Message message = messageOptional.get();
-//           message.setText("bay, bob");
-//           message.setDateTime(LocalDateTime.now());
-//           mr.update(message);
-//       }
-//        System.out.println(messageOptional);
+
 
         UsersRepositoryJdbcImpl urj = new UsersRepositoryJdbcImpl(dbWorker);
-//        urj.findAll(0,4);
-
-        System.out.println(urj.findAll(3,4));
+        List<User> users = urj.findAll(3, 4);
+        for(User u: users) {
+            System.out.println(u);
+            System.out.println(); // todo use != null
+        }
     }
     }
 
