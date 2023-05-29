@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UsersRepositoryJdbcImpl implements UsersRepository{
-    private DataSource dataSource_;
+    private final DataSource dataSource_;
 
-    private SecureStatements pStatement_;
+    private final SecureStatements pStatement_;
 
     public UsersRepositoryJdbcImpl(DBWorker dataSource) {
         dataSource_ = dataSource.getDS();
@@ -28,8 +28,10 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     public List<User> findAll(int page, int size) throws SQLException {
         List<User> usersFromSpecificPage = new ArrayList<>();
         String findOfUsers = sqlToString("src/main/resources/allUsersQuery.sql");
+        page = page == 0 ? 0 : page * size - 1;
+        int finalPage = page;
         pStatement_.preparedStatement(findOfUsers, (statement) -> {
-            statement.setInt(1, page*size-1);
+            statement.setInt(1, finalPage);
             statement.setInt(2, size);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
@@ -50,7 +52,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
                     ChatRoom ownerChat = new ChatRoom(
                             res.getLong("owner_chat_id"),
                             res.getString("owner_chat_name"),
-                            null,
+                            new User(user.getId(), user.getLogin(), user.getPassword(), null, null),
                             null);
                     user.getCreatedRooms().add(ownerChat);
                 }
@@ -61,7 +63,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
                     ChatRoom socializingChat = new ChatRoom(
                             res.getLong("socializes_chat_id"),
                             res.getString("socializes_chat_name"),
-                            null,
+                            new User(res.getLong("id"), res.getString("login"), res.getString("password"), null, null),
                             null);
                     user.getSocializingRooms().add(socializingChat);
                 }

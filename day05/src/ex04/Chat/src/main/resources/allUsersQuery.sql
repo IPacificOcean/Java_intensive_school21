@@ -12,7 +12,12 @@ with user_page as (
          from user_page as up
                   left join chat.chatroom as cr on up.id = cr.owner
                   left join chat.user_x_chatroom as uxc on up.id = uxc.user_id
-         order by up.id, cr.id, uxc.chatroom_id)
-select t.*, cr.name as socializes_chat_name
-from t
-         left join chat.chatroom as cr on t.socializes_chat_id = cr.id
+         order by up.id, cr.id, uxc.chatroom_id),
+     t2 as (
+         select *
+         from t
+                  left join chat.users as u on u.id = t.socializes_chat_id
+     )
+select t2.*, cr.name as socializes_chat_name
+from t2
+         left join chat.chatroom as cr on t2.socializes_chat_id = cr.id;

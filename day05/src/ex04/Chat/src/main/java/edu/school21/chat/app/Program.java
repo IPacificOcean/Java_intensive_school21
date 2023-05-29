@@ -1,15 +1,13 @@
 package edu.school21.chat.app;
 
 
-import edu.school21.chat.models.Message;
 import edu.school21.chat.models.User;
-import edu.school21.chat.repositories.*;
+import edu.school21.chat.repositories.CreateTables;
+import edu.school21.chat.repositories.DBWorker;
+import edu.school21.chat.repositories.UsersRepositoryJdbcImpl;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 public class Program {
@@ -21,17 +19,19 @@ public class Program {
         ct.CreateTab(pathSch, pathdata);
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         DBWorker dbWorker = new DBWorker();
         createTables(dbWorker);
-
-
-        UsersRepositoryJdbcImpl urj = new UsersRepositoryJdbcImpl(dbWorker);
-        List<User> users = urj.findAll(3, 4);
-        for(User u: users) {
-            System.out.println(u);
-            System.out.println(); // todo use != null
+        try {
+            UsersRepositoryJdbcImpl urj = new UsersRepositoryJdbcImpl(dbWorker);
+            List<User> users = urj.findAll(3, 4);
+            for (User u : users) {
+                System.out.println(u);
+                System.out.println();
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
         }
     }
-    }
+}
 
