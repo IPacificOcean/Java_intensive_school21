@@ -87,6 +87,4 @@ public class ProductsRepositoryJdbcImplTest {
         productRepository.delete(1L);
         assertEquals(EXPECTED_PRODUCTS_AFTER_DELETE, productRepository.findAll());
     }
-
-
 }
