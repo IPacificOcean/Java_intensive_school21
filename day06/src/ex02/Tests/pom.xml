@@ -51,8 +51,9 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>6.0.9</version>
+            <version>5.2.20.RELEASE</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
         <dependency>

@@ -20,23 +20,23 @@ public class ProductsRepositoryJdbcImplTest {
     private ProductRepository productRepository;
 
     public final List<Product> EXPECTED_FIND_ALL_PRODUCTS = Arrays.asList(
-            new Product(0L, "Pizza", 61.65),
-            new Product(1L, "Cheese", 46.39),
-            new Product(2L, "Macaroons", 12.89),
-            new Product(3L, "Milk", 10.4),
-            new Product(4L, "Cranberries", 81.36));
+            new Product(1L, "Pizza", 61.65),
+            new Product(2L, "Cheese", 46.39),
+            new Product(3L, "Macaroons", 12.89),
+            new Product(4L, "Milk", 10.4),
+            new Product(5L, "Cranberries", 81.36));
 
     private final Product EXPECTED_FIND_BY_ID_PRODUCT =
-            new Product(2L, "Macaroons", 12.89);
+            new Product(3L, "Macaroons", 12.89);
 
     private final Product EXPECTED_UPDATED_PRODUCT =
-            new Product(3L, "Yogurt", 15.80);
+            new Product(4L, "Yogurt", 15.80);
 
     public final List<Product> EXPECTED_PRODUCTS_AFTER_DELETE = Arrays.asList(
-            new Product(0L, "Pizza", 61.65),
-            new Product(2L, "Macaroons", 12.89),
-            new Product(3L, "Milk", 10.4),
-            new Product(4L, "Cranberries", 81.36));
+            new Product(1L, "Pizza", 61.65),
+            new Product(3L, "Macaroons", 12.89),
+            new Product(4L, "Milk", 10.4),
+            new Product(5L, "Cranberries", 81.36));
 
     @BeforeEach
     public void init() {
@@ -62,7 +62,7 @@ public class ProductsRepositoryJdbcImplTest {
 
     @Test
     public void testFindById() {
-        Product exists = productRepository.findById(2L).orElse(null);
+        Product exists = productRepository.findById(3L).orElse(null);
         assertEquals(EXPECTED_FIND_BY_ID_PRODUCT, exists);
     }
 
@@ -76,7 +76,7 @@ public class ProductsRepositoryJdbcImplTest {
     @Test
     public void testSave() {
         productRepository.save(new Product("pork", 20.45));
-        Product expected = new Product(5L, "pork", 20.45);
+        Product expected = new Product(6L, "pork", 20.45);
         List<Product> allProducts = productRepository.findAll();
         Product exists = allProducts.get(allProducts.size() - 1);
         assertEquals(expected, exists);
@@ -84,7 +84,7 @@ public class ProductsRepositoryJdbcImplTest {
 
     @Test
     public void testDelete() {
-        productRepository.delete(1L);
+        productRepository.delete(2L);
         assertEquals(EXPECTED_PRODUCTS_AFTER_DELETE, productRepository.findAll());
     }
 }
