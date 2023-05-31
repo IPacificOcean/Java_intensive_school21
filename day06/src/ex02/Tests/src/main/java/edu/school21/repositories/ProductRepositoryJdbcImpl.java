@@ -17,13 +17,13 @@ public class ProductRepositoryJdbcImpl implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        return jdbcTemplate.query("select * from tests.product"
+        return jdbcTemplate.query("select * from tests.products"
                 , new BeanPropertyRowMapper<>(Product.class));
     }
 
     @Override
     public Optional<Product> findById(long id) {
-        return jdbcTemplate.query("select * from tests.product where id = ?"
+        return jdbcTemplate.query("select * from tests.products where id = ?"
                         , new Object[]{id}, new BeanPropertyRowMapper<>(Product.class))
                 .stream().findAny();
     }
