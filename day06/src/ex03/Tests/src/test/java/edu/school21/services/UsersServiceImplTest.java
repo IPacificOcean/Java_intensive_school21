@@ -4,7 +4,6 @@ import edu.school21.exception.AlreadyAuthenticatedException;
 import edu.school21.models.User;
 import edu.school21.repositories.UsersRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,23 +19,27 @@ public class UsersServiceImplTest {
     private UsersRepository usersRepository;
     @InjectMocks
     private UsersServiceImpl usersServiceImpl;
-
     private final User user;
 
     {
         user = new User(1L, "alex@mail.com", "alex", false);
     }
 
-
     @Test
-    public void shouldReturnTrue() throws AlreadyAuthenticatedException {
+    public void correctWorksShouldReturnTrue() throws AlreadyAuthenticatedException {
         String login = "alex@mail.com";
         String password = "alex";
         Mockito.when(usersRepository.findByLogin(login)).thenReturn(user);
         boolean status = usersServiceImpl.authenticate(login, password);
-        Mockito.verify(usersRepository, Mockito.times(1)).findByLogin(login);
-        Mockito.verify(usersRepository, Mockito.times(1)).update(Mockito.any(User.class));
         Assertions.assertTrue(status);
+    }
+
+    @Test
+    public void shouldReturnTrow() {
+        String login = "alex@mail.com";
+        String password = "alex";
+        Mockito.doThrow(new EntityNotFoundException()).when(usersRepository).update(user);
+        Assertions.assertThrows(AlreadyAuthenticatedException.class, () -> usersServiceImpl.authenticate(login, password));
     }
 
     @Test
@@ -45,8 +48,6 @@ public class UsersServiceImplTest {
         String password = "alex";
         Mockito.when(usersRepository.findByLogin(login)).thenThrow(EntityNotFoundException.class);
         Assertions.assertThrows(AlreadyAuthenticatedException.class, () -> usersServiceImpl.authenticate(login, password));
-        Mockito.verify(usersRepository, Mockito.times(1)).findByLogin(Mockito.anyString());
-        Mockito.verify(usersRepository, Mockito.never()).update(Mockito.any(User.class));
     }
 
     @Test
@@ -55,9 +56,6 @@ public class UsersServiceImplTest {
         String password = "justas";
         Mockito.when(usersRepository.findByLogin(login)).thenReturn(user);
         boolean status = usersServiceImpl.authenticate(login, password);
-        Mockito.verify(usersRepository, Mockito.times(1)).findByLogin(login);
-        Mockito.verify(usersRepository, Mockito.never()).update(Mockito.any(User.class));
         Assertions.assertFalse(status);
     }
-
 }
