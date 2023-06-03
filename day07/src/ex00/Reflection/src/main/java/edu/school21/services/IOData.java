@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IOData {
        private Class<?> clUser;
@@ -39,8 +41,7 @@ private List<String[]> listClasses;
         listClasses.add(new String[]{simpleNOfCarsClass, nameOfCarsClass});
     }
 
-    public void getFields(String className) throws ClassNotFoundException {
-       Class<?> clazz = Class.forName(className);
+    public void getFields(Class<?> clazz) throws ClassNotFoundException {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             System.out.println("     " + field.getType().getSimpleName() + " " + field.getName());
@@ -48,17 +49,28 @@ private List<String[]> listClasses;
         }
     }
 
-    public void getMethods(String className) throws ClassNotFoundException {
-        Class<?> clazz = Class.forName(className);
+//    public void getMethods(String className) throws ClassNotFoundException {
+//        Class<?> clazz = Class.forName(className);
+//        Method[] methods = clazz.getDeclaredMethods();
+//        for (Method method : methods) {
+//            Parameter[] parameters = method.getParameters();
+//            for (Parameter parameter : parameters) {
+//                System.out.println(parameter.getType().getSimpleName());
+//            }
+//                System.out.println("     " + method.getReturnType().getSimpleName() + " " + method.getName());
+//        }
+//    }
+
+    public void getMethods(Class<?> clazz) throws ClassNotFoundException {
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
-            Parameter[] parameters = method.getParameters();
-            for (Parameter parameter : parameters) {
-                System.out.println(parameter.getName());
-            }
-                System.out.println("     " + method.getReturnType().getSimpleName() + " " + method.getName());
+//            Parameter[] parameters = method.getParameters();
+//            for (Parameter parameter : parameters) {
+//                System.out.println( "(" + parameter.getType().getSimpleName() + ")");
+//            }
+            String s = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(",")).toString();
+            System.out.println("     " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + s + ")");
         }
-
     }
 
     public String input() throws IOException {
@@ -90,12 +102,12 @@ private List<String[]> listClasses;
             System.out.println("incorrect class name");
         }
 
-        System.out.println(className);
+        Class<?> clazz = Class.forName(className);
         System.out.println("___________________________");
         System.out.println("fields :");
-        getFields(className);
+        getFields(clazz);
         System.out.println("methods :");
-        getMethods(className);
+        getMethods(clazz);
         System.out.println("___________________________");
     }
 
