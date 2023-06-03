@@ -64,12 +64,8 @@ private List<String[]> listClasses;
     public void getMethods(Class<?> clazz) throws ClassNotFoundException {
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
-//            Parameter[] parameters = method.getParameters();
-//            for (Parameter parameter : parameters) {
-//                System.out.println( "(" + parameter.getType().getSimpleName() + ")");
-//            }
-            String s = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(",")).toString();
-            System.out.println("     " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + s + ")");
+            String parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(",")).toString();
+            System.out.println("     " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + parameters + ")");
         }
     }
 
