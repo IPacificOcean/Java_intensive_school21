@@ -10,9 +10,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class IOData {
@@ -71,35 +69,74 @@ public class IOData {
         return methods;
     }
 
-    public String execMethod(Object createdClass, Method[] methods, String methodName, String argName) throws InvocationTargetException, IllegalAccessException {
-        for (Method method : methods) {
+
+    public Method getExecMethod(Method[] methods, String methodName) {
+        return Arrays.stream(methods).filter((method) -> {
             String parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(", "));
-            String methodWithPars = method.getName() + "(" + parameters + ")";
-//            System.out.println("\t " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + parameters + ")");
-            if (methodWithPars.equals(methodName)) {
-                method.setAccessible(true);
-                String d = (String) method.invoke(createdClass, argName);
-                return d;
-            }
+            String methodWithParams = method.getName() + "(" + parameters + ")";
+            return methodWithParams.equals(methodName);
+        }).findFirst().orElseThrow(() -> {
+            throw new NoSuchElementException("There is no such a method");
+        });
+//        return methodExec;
+    }
+
+    public Object methodInvoke (Object createdClass, List<Object> valParams, Method execMethod) throws InvocationTargetException, IllegalAccessException {
+        execMethod.setAccessible(true);
+        return execMethod.invoke(createdClass, valParams.toArray());
+    }
+
+    public long getCountParams(Method methodExec) {
+        return Arrays.stream(methodExec.getParameterTypes()).count();
+    }
+
+    public void addParamsToList(List<Object> valParams, Class<?> param, String argValue) {
+        switch (param.getSimpleName()) {
+            case "Integer":
+                valParams.add(Integer.parseInt(argValue));
+                break;
+            case "Double":
+                valParams.add(Double.parseDouble(argValue));
+                break;
+            case "Boolean":
+                valParams.add(Boolean.parseBoolean(argValue));
+                break;
+            case "Long":
+                valParams.add(Long.parseLong(argValue));
+                break;
+            case "String":
+                valParams.add(argValue);
+                break;
         }
-        return null;
     }
 
     public String input() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String line;
-        long numberId = 0;
         line = br.readLine();
         return line;
     }
 
-    public void output() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
-        System.out.println("Classes:");
-        Set<Class<?>> setClasses = getClassesFromPackage("edu.school21.models");
+    public void inputParamForExecMethod(Method execMethod, List<Object> valParams) throws IOException {
+        long countParams = getCountParams(execMethod);
+        while (countParams != 0) {
+            Class<?>[] params = execMethod.getParameterTypes();
+            for (Class<?> param : params) {
+                System.out.println("Enter " + param.getSimpleName() + " value");
+                String argValue = input();
+                addParamsToList(valParams, param, argValue);
+            }
+            --countParams;
+        }
+    }
+
+    public void printClassName (Set<Class<?>> setClasses) {
         for (Class<?> clazz : setClasses) {
             System.out.println(clazz.getSimpleName());
         }
-        System.out.println("Enter class name:");
+    }
+
+    public String inputClassNameForCreatedObject(Set<Class<?>> setClasses) throws IOException {
         String className;
         while (true) {
             boolean status = false;
@@ -114,6 +151,16 @@ public class IOData {
             if (status) break;
             System.out.println("incorrect class name\nEnter correct class name:");
         }
+        return className;
+    }
+
+    public void output(String packageName) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        System.out.println("Classes:");
+        Set<Class<?>> setClasses = getClassesFromPackage(packageName);
+
+        printClassName (setClasses);
+        System.out.println("Enter class name:");
+        String className = inputClassNameForCreatedObject(setClasses);
 
         Class<?> clazz = Class.forName(className);
         Field[] fields;
@@ -125,9 +172,8 @@ public class IOData {
         System.out.println("methods :");
         methods = getMethods(clazz);
         System.out.println("___________________________");
-        // create an object
+
         System.out.println("Let's create an object.");
-        //set fields
         for (Field field : fields) {
             System.out.println(field.getName() + ":");
             String fieldName = input();
@@ -135,7 +181,7 @@ public class IOData {
         }
         System.out.println("Object created: " + createdClass);
         System.out.println("___________________________");
-        //update fields
+
         System.out.println("Enter name of the field for changing:");
         String fieldName = input();
         System.out.println("Enter String value:");
@@ -143,15 +189,18 @@ public class IOData {
         changedField(fields, createdClass, fieldName, fieldValueForChanged);
         System.out.println("Object updated: " + createdClass);
         System.out.println("___________________________");
+
         System.out.println("Enter name of the method for coll:");
         String methodName = input();
-        System.out.println("Enter int value:");
-        String argName = input();
-        System.out.println("Method returned:");
-        System.out.println(execMethod(createdClass, methods, methodName, argName));
+        Method execMethod = getExecMethod(methods, methodName);
+        List<Object> valParams = new ArrayList<>();
+        inputParamForExecMethod(execMethod, valParams);
 
-
+        Object returned = methodInvoke (createdClass, valParams, execMethod);
+        if (returned != null) {
+            System.out.println("Method returned:");
+            System.out.println(returned);
+        }
     }
-
 
 }

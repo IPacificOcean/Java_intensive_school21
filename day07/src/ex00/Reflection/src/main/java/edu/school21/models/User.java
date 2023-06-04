@@ -19,9 +19,8 @@ public class User {
         this.height = height;
     }
 
-    private String grow(String value) {
-        System.out.println("add " + value);
-       return this.height + value;
+    private Integer grow(Integer value) {
+       return this.height += value;
     }
 
     @Override

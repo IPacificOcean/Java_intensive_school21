@@ -7,9 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Program {
     public static void main(String[] args) {
+        String packageName = "edu.school21.models";
         IOData ioData = new IOData();
+
+
         try {
-            ioData.output();
+            ioData.output(packageName);
         } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException
                  | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();

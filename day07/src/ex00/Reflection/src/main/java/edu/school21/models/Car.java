@@ -26,7 +26,7 @@ public class Car {
     public String toString() {
         return new StringJoiner(", ", Car.class.getSimpleName() + "[", "]")
                 .add("model= '" + model + "'")
-                .add("height= " + currentFuelLevel + "")
+                .add("currentFuelLevel= " + currentFuelLevel + "")
                 .toString();
     }
 }
