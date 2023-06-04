@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,11 +55,22 @@ public class IOData {
         }
     }
 
+    public void changedField (Field[] fields, Object createdClass, String fieldName, String fieldValueForChanged ) throws IllegalAccessException {
+        Optional<Field> fieldForChanged = Arrays.stream(fields).filter(field -> field.getName().equals(fieldName)).findFirst();
+        if (!fieldForChanged.isPresent()) throw new IllegalArgumentException("incorrect field name");
+        Field changedField =fieldForChanged.get();
+        setFields(changedField, createdClass, fieldValueForChanged);
+    }
+
     public void getMethods(Class<?> clazz) {
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
             String parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(", "));
+            if (method.getReturnType().getSimpleName().equals("void")) {
+                System.out.println("\t " + method.getName() + "(" + parameters + ")");
+            } else {
             System.out.println("\t " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + parameters + ")");
+            }
         }
     }
 
@@ -101,14 +113,25 @@ public class IOData {
         System.out.println("methods :");
         getMethods(clazz);
         System.out.println("___________________________");
+        // create an object
         System.out.println("Let's create an object.");
-
+        //set fields
         for (Field field : fields) {
             System.out.println(field.getName() + ":");
             String fieldName = input();
         setFields(field, createdClass, fieldName);
         }
         System.out.println("Object created: " + createdClass);
+        System.out.println("___________________________");
+        //update fields
+        System.out.println("Enter name of the field for changing:");
+        String fieldName = input();
+        System.out.println("Enter String value:");
+        String fieldValueForChanged = input();
+        changedField(fields, createdClass, fieldName, fieldValueForChanged);
+        System.out.println("Object updated: " + createdClass);
+        System.out.println("___________________________");
+        System.out.println("Enter name of the method for coll:");
     }
 
 
