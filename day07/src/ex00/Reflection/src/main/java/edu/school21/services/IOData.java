@@ -7,13 +7,10 @@ import org.reflections.scanners.SubTypesScanner;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,14 +22,10 @@ public class IOData {
     }
 
     public Object getClassInstance(Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Object object;
         return clazz.getDeclaredConstructor().newInstance();
-//        Constructor<?> constructor = clazz.getConstructor();
-//        constructor.setAccessible(true);
-//        object = constructor.newInstance();
     }
 
-    public Field[] getFields(Class<?> clazz) throws ClassNotFoundException {
+    public Field[] getFields(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             System.out.println("\t " + field.getType().getSimpleName() + " " + field.getName());
@@ -40,10 +33,31 @@ public class IOData {
         return fields;
     }
 
+    public void setFields(Field field, Object createdClass, String fieldName) throws IllegalAccessException {
+        field.setAccessible(true);
+        switch (field.getType().getSimpleName()) {
+            case "Integer":
+                field.set(createdClass, Integer.parseInt(fieldName));
+                break;
+            case "Double":
+                field.set(createdClass, Double.parseDouble(fieldName));
+                break;
+            case "Boolean":
+                field.set(createdClass, Boolean.parseBoolean(fieldName));
+                break;
+            case "Long":
+                field.set(createdClass, Long.parseLong(fieldName));
+                break;
+            case "String":
+                field.set(createdClass, fieldName);
+                break;
+        }
+    }
+
     public void getMethods(Class<?> clazz) {
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
-            String parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(", ")).toString();
+            String parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(", "));
             System.out.println("\t " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + parameters + ")");
         }
     }
@@ -92,13 +106,7 @@ public class IOData {
         for (Field field : fields) {
             System.out.println(field.getName() + ":");
             String fieldName = input();
-            field.setAccessible(true);
-            if (field.getType().getSimpleName().equals("Integer")) {
-                int i = Integer.parseInt(fieldName);
-                field.set(createdClass,i);
-            } else {
-                field.set(createdClass, fieldName);
-            }
+        setFields(field, createdClass, fieldName);
         }
         System.out.println("Object created: " + createdClass);
     }

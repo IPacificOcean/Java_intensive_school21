@@ -19,7 +19,7 @@ public class User {
         this.height = height;
     }
 
-    private int grow(int value) {
+    private Integer grow(Integer value) {
         System.out.println("add " + value);
        return this.height += value;
     }
