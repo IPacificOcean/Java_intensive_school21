@@ -5,7 +5,7 @@ import java.util.StringJoiner;
 public class User {
     private String firstName;
     private String lastName;
-    private int height;
+    private Integer height;
 
     public User() {
         this.firstName = "Def. firstName";
@@ -13,7 +13,7 @@ public class User {
         this.height = 0;
     }
 
-    public User(String firstName, String lastName, int height) {
+    public User(String firstName, String lastName, Integer height) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.height = height;
@@ -27,9 +27,9 @@ public class User {
     @Override
     public String toString() {
         return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
-                .add("firstName=" + firstName + "")
-                .add("lastName=" + lastName + "")
-                .add("height=" + height + "")
+                .add("firstName= '" + firstName + "'")
+                .add("lastName= '" + lastName + "'")
+                .add("height= " + height + "")
                 .toString();
     }
 }

@@ -25,7 +25,7 @@ public class Car {
     @Override
     public String toString() {
         return new StringJoiner(", ", Car.class.getSimpleName() + "[", "]")
-                .add("model= " + model + "")
+                .add("model= '" + model + "'")
                 .add("height= " + currentFuelLevel + "")
                 .toString();
     }
