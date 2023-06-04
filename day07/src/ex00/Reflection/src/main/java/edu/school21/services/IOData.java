@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class IOData {
 
-    public Set<Class<?>>getClassesFromPackage(String packageName) {
+    public Set<Class<?>> getClassesFromPackage(String packageName) {
         Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
         return reflections.getSubTypesOf(Object.class);
     }
@@ -55,23 +55,34 @@ public class IOData {
         }
     }
 
-    public void changedField (Field[] fields, Object createdClass, String fieldName, String fieldValueForChanged ) throws IllegalAccessException {
+    public void changedField(Field[] fields, Object createdClass, String fieldName, String fieldValueForChanged) throws IllegalAccessException {
         Optional<Field> fieldForChanged = Arrays.stream(fields).filter(field -> field.getName().equals(fieldName)).findFirst();
         if (!fieldForChanged.isPresent()) throw new IllegalArgumentException("incorrect field name");
-        Field changedField =fieldForChanged.get();
+        Field changedField = fieldForChanged.get();
         setFields(changedField, createdClass, fieldValueForChanged);
     }
 
-    public void getMethods(Class<?> clazz) {
+    public Method[] getMethods(Class<?> clazz) {
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
             String parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(", "));
-            if (method.getReturnType().getSimpleName().equals("void")) {
-                System.out.println("\t " + method.getName() + "(" + parameters + ")");
-            } else {
             System.out.println("\t " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + parameters + ")");
+        }
+        return methods;
+    }
+
+    public String execMethod(Object createdClass, Method[] methods, String methodName, String argName) throws InvocationTargetException, IllegalAccessException {
+        for (Method method : methods) {
+            String parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getType().getSimpleName()).collect(Collectors.joining(", "));
+            String methodWithPars = method.getName() + "(" + parameters + ")";
+//            System.out.println("\t " + method.getReturnType().getSimpleName() + " " + method.getName() + "(" + parameters + ")");
+            if (methodWithPars.equals(methodName)) {
+                method.setAccessible(true);
+                String d = (String) method.invoke(createdClass, argName);
+                return d;
             }
         }
+        return null;
     }
 
     public String input() throws IOException {
@@ -85,7 +96,7 @@ public class IOData {
     public void output() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
         System.out.println("Classes:");
         Set<Class<?>> setClasses = getClassesFromPackage("edu.school21.models");
-        for(Class<?> clazz: setClasses) {
+        for (Class<?> clazz : setClasses) {
             System.out.println(clazz.getSimpleName());
         }
         System.out.println("Enter class name:");
@@ -93,7 +104,7 @@ public class IOData {
         while (true) {
             boolean status = false;
             className = input();
-            for (Class<?> clazz: setClasses) {
+            for (Class<?> clazz : setClasses) {
                 if (className.equals(clazz.getSimpleName())) {
                     className = clazz.getName();
                     status = true;
@@ -105,13 +116,14 @@ public class IOData {
         }
 
         Class<?> clazz = Class.forName(className);
-        Field[]fields;
+        Field[] fields;
+        Method[] methods;
         Object createdClass = getClassInstance(clazz);
         System.out.println("___________________________");
         System.out.println("fields :");
         fields = getFields(clazz);
         System.out.println("methods :");
-        getMethods(clazz);
+        methods = getMethods(clazz);
         System.out.println("___________________________");
         // create an object
         System.out.println("Let's create an object.");
@@ -119,7 +131,7 @@ public class IOData {
         for (Field field : fields) {
             System.out.println(field.getName() + ":");
             String fieldName = input();
-        setFields(field, createdClass, fieldName);
+            setFields(field, createdClass, fieldName);
         }
         System.out.println("Object created: " + createdClass);
         System.out.println("___________________________");
@@ -132,6 +144,13 @@ public class IOData {
         System.out.println("Object updated: " + createdClass);
         System.out.println("___________________________");
         System.out.println("Enter name of the method for coll:");
+        String methodName = input();
+        System.out.println("Enter int value:");
+        String argName = input();
+        System.out.println("Method returned:");
+        System.out.println(execMethod(createdClass, methods, methodName, argName));
+
+
     }
 
 
