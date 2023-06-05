@@ -4,7 +4,7 @@ import java.util.StringJoiner;
 
 public class Car {
 
-    private String model;
+    private final String model;
     private Integer currentFuelLevel;
 
     public Car() {
@@ -18,7 +18,6 @@ public class Car {
     }
 
     public Integer refuelCar(Integer value) {
-        System.out.println("refuelCar worked");
      return currentFuelLevel += value;
     }
 
