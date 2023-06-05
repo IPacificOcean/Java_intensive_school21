@@ -10,7 +10,6 @@ public class Program {
         String packageName = "edu.school21.models";
         IOData ioData = new IOData();
 
-
         try {
             ioData.output(packageName);
         } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException
