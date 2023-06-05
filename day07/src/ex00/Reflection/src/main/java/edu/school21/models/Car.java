@@ -17,7 +17,7 @@ public class Car {
         this.currentFuelLevel = currentFuelLevel;
     }
 
-    public int refuelCar(int value) {
+    public Integer refuelCar(Integer value) {
         System.out.println("refuelCar worked");
      return currentFuelLevel += value;
     }

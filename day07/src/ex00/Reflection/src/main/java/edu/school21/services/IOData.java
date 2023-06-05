@@ -32,6 +32,18 @@ public class IOData {
         return fields;
     }
 
+    public String getTypeField(Field[] fields, String fieldName) {
+        String typeField = null;
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName)) {
+                typeField = field.getType().getSimpleName();
+            }
+
+        }
+        if (typeField == null) throw new IllegalArgumentException("incorrect field name");
+        return typeField;
+    }
+
     public void setFields(Field field, Object createdClass, String fieldName) throws IllegalAccessException {
         field.setAccessible(true);
         switch (field.getType().getSimpleName()) {
@@ -81,7 +93,7 @@ public class IOData {
 //        return methodExec;
     }
 
-    public Object methodInvoke (Object createdClass, List<Object> valParams, Method execMethod) throws InvocationTargetException, IllegalAccessException {
+    public Object methodInvoke(Object createdClass, List<Object> valParams, Method execMethod) throws InvocationTargetException, IllegalAccessException {
         execMethod.setAccessible(true);
         return execMethod.invoke(createdClass, valParams.toArray());
     }
@@ -130,7 +142,7 @@ public class IOData {
         }
     }
 
-    public void printClassName (Set<Class<?>> setClasses) {
+    public void printClassName(Set<Class<?>> setClasses) {
         for (Class<?> clazz : setClasses) {
             System.out.println(clazz.getSimpleName());
         }
@@ -158,7 +170,7 @@ public class IOData {
         System.out.println("Classes:");
         Set<Class<?>> setClasses = getClassesFromPackage(packageName);
 
-        printClassName (setClasses);
+        printClassName(setClasses);
         System.out.println("Enter class name:");
         String className = inputClassNameForCreatedObject(setClasses);
 
@@ -184,7 +196,8 @@ public class IOData {
 
         System.out.println("Enter name of the field for changing:");
         String fieldName = input();
-        System.out.println("Enter String value:");
+        String typeField = getTypeField(fields, fieldName);
+        System.out.println("Enter " + typeField + " value:");
         String fieldValueForChanged = input();
         changedField(fields, createdClass, fieldName, fieldValueForChanged);
         System.out.println("Object updated: " + createdClass);
@@ -196,7 +209,7 @@ public class IOData {
         List<Object> valParams = new ArrayList<>();
         inputParamForExecMethod(execMethod, valParams);
 
-        Object returned = methodInvoke (createdClass, valParams, execMethod);
+        Object returned = methodInvoke(createdClass, valParams, execMethod);
         if (returned != null) {
             System.out.println("Method returned:");
             System.out.println(returned);
