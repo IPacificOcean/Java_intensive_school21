@@ -48,7 +48,7 @@
                             <proc>only</proc>
                             <annotationProcessors>
                                 <annotationProcessor>
-                                    edu.school21.ex01.annotationProcessor.HtmlProcessor
+                                    edu.school21.processor.HtmlProcessor
                                 </annotationProcessor>
                             </annotationProcessors>
                         </configuration>

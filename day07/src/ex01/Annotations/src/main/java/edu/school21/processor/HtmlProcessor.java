@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
+import java.util.StringJoiner;
+
 @SupportedAnnotationTypes(value = {"edu.school21.annotations.HtmlForm","edu.school21.annotations.HtmlInput"})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
@@ -28,42 +30,34 @@ public class HtmlProcessor extends AbstractProcessor {
                 TypeElement typeElement = (TypeElement) element;
                 HtmlForm htmlForm = typeElement.getAnnotation(HtmlForm.class);
                 String fileName = htmlForm.filename();
-                StringBuilder builder = new StringBuilder();
-                builder.append("<form action = \"").append(htmlForm.action())
-                        .append("\" method = \"").append(htmlForm.method()).append("\">\n");
+                StringJoiner stringForHtml = new StringJoiner("\">\n");
+                stringForHtml.add("<form action = \"" + htmlForm.action() + "\" method = \"" + htmlForm.method());
 
                 for (Element fieldElement : typeElement.getEnclosedElements()) {
 
                     if (fieldElement.getKind().isField() &&
                             fieldElement.getAnnotation(HtmlInput.class) != null) {
                         HtmlInput htmlInput = fieldElement.getAnnotation(HtmlInput.class);
-
-                        builder
-                                .append("\t<input type = \"")
-                                .append(htmlInput.type())
-                                .append("\" name = \"")
-                                .append(htmlInput.name())
-                                .append("\" placeholder = \"")
-                                .append(htmlInput.placeholder())
-                                .append("\">\n");
+                        stringForHtml.add("\t<input type = \"" + htmlInput.type()
+                                + "\" name = \"" + htmlInput.name()
+                                + "\" placeholder = \"" + htmlInput.placeholder());
                     }
                 }
-
-                builder.append("\t<input type=\"submit\" value=\"Send\">\n");
-                builder.append("</form>");
-
+                stringForHtml.add("\t<input type=\"submit\" value=\"Send").add("</form>");
                 try {
-                    Path outputPath = Paths.get("target/classes", fileName);
-                    BufferedWriter writer = Files.newBufferedWriter(outputPath);
-                    writer.write(builder.toString());
-                    writer.close();
+                    saveToFile(fileName, stringForHtml);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-
-
         return status;
+    }
+
+    public void saveToFile(String fileName, StringJoiner stringForHtml) throws IOException {
+        Path outputPath = Paths.get("target/classes", fileName);
+        BufferedWriter bufferedWriter = Files.newBufferedWriter(outputPath);
+        bufferedWriter.write(stringForHtml.toString());
+        bufferedWriter.close();
     }
 }
