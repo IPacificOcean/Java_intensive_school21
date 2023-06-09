@@ -14,7 +14,7 @@ public class Car {
     @OrmColumnId
     private Long id;
 
-    @OrmColumn(name= "model", lenght = 20)
+    @OrmColumn(name= "model", length = 20)
     private String model;
 
     @OrmColumn(name= "car_model_year")

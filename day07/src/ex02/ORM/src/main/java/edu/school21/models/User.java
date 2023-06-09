@@ -13,13 +13,13 @@ public class User {
     @OrmColumnId
     private Long id;
 
-    @OrmColumn(name= "first_name", lenght = 20)
+    @OrmColumn(name= "first_name", length = 20)
     private String firstName;
 
-    @OrmColumn(name= "last_name", lenght = 20)
+    @OrmColumn(name= "last_name", length = 20)
     private String lastName;
 
-//    @OrmColumn(name= "age")
+    @OrmColumn(name= "age")
     private Integer age;
 
     public User() {}
