@@ -1,11 +1,9 @@
 package edu.school21.app;
 
-import edu.school21.processor.OrmProcessor;
+import edu.school21.orm.OrmManager;
 
 public class Program {
     public static void main(String[] args) {
-        OrmProcessor ormProcessor = new OrmProcessor();
-        ormProcessor.createSchema();
-//        ormProcessor.createTable();
+        OrmManager ormManager = new OrmManager();
     }
 }
