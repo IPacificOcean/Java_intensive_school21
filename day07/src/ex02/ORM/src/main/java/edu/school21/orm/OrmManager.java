@@ -15,10 +15,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class OrmManager {
-    private SecureStatements statements;
+    private final SecureStatements statements;
     public OrmManager() {
         DBWorker dbWorker = new DBWorker();
         CreateTables createTables = new CreateTables(dbWorker);
@@ -35,26 +36,23 @@ public class OrmManager {
         Class<?> clazz = entity.getClass();
         OrmEntity ormEntity = clazz.getAnnotation(OrmEntity.class);
         String table =ormEntity.table();
-        StringBuilder params = new StringBuilder();
-        StringBuilder substitute = new StringBuilder();
+        StringJoiner columnNames = new StringJoiner(", ");
+        StringJoiner substitute = new StringJoiner(", ");
         List<Object> paramVal = new ArrayList<>();
         List<Field> fields = Arrays.stream(clazz.getDeclaredFields()).collect(Collectors.toList());
-
+//
         for (Field field : fields) {
 
             if (field.isAnnotationPresent(OrmColumn.class)) {
                 field.setAccessible(true);
                 OrmColumn ormColumn = field.getAnnotation(OrmColumn.class);
-                params.append(ormColumn.name()).append(", ");
-                substitute.append("?, ");
+                columnNames.add(ormColumn.name());
+                substitute.add("?");
                 paramVal.add(field.get(entity));
             }
         }
-
-        String paramsNames = params.substring(0, params.length() - 2);
-        String substituteStr = substitute.substring(0, substitute.length() - 2);
         String querySave = String.format("insert into orm.%s (%s)\nvalues (%s)"
-                , table, paramsNames, substituteStr);
+                , table, columnNames, substitute);
 
         statements.preparedStatement(querySave, (statement) -> {
             for (int i =0; i < paramVal.size(); ++i) {
@@ -63,20 +61,17 @@ public class OrmManager {
             statement.executeUpdate();
             System.out.println(statement.unwrap(PreparedStatement.class).toString(). replace("RETURNING *", ""));
         });
-
-
-
-
     }
 
     public void update(Object entity) throws IllegalAccessException, SQLException {
         Class<?> clazz = entity.getClass();
         OrmEntity ormEntity = clazz.getAnnotation(OrmEntity.class);
         String table = ormEntity.table();
-        StringBuilder sqlBuilder = new StringBuilder();
+        StringBuilder query = new StringBuilder();
+        query.append("update orm.").append(table).append(" set ");
         List<Object> paramValues = new ArrayList<>();
         List<Field> fields = Arrays.stream(clazz.getDeclaredFields()).collect(Collectors.toList());
-
+        System.out.println(query);
         Object id = null;
         for (Field field : fields) {
             field.setAccessible(true);
@@ -84,18 +79,16 @@ public class OrmManager {
                 id = field.get(entity);
             }
             if (field.isAnnotationPresent(OrmColumn.class)) {
-                sqlBuilder.append("update ").append("orm").append(".")
-                          .append(table).append(" set ");
                 OrmColumn ormColumn = field.getAnnotation(OrmColumn.class);
-                sqlBuilder.append(ormColumn.name()).append(" = ?, ");
+                query.append(ormColumn.name()).append(" = ?, ");
                 paramValues.add(field.get(entity));
             }
         }
-        sqlBuilder.setLength(sqlBuilder.length() - 2);
-        sqlBuilder.append(" where id = ?");
+        query.setLength(query.length() - 2);
+        query.append(" where id = ?");
 
         Object finalId = id;
-        statements.preparedStatement(sqlBuilder.toString(), (stmt) -> {
+        statements.preparedStatement(query.toString(), (stmt) -> {
             for (int i = 0; i < paramValues.size(); i++) {
                 stmt.setObject(i + 1, paramValues.get(i));
             }

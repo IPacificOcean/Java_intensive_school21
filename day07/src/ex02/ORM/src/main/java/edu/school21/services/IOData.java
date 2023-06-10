@@ -16,16 +16,16 @@ public class IOData {
         Car car = new Car(null, "Ford", 2010);
         ormManager.save(car);
 
-//        user.setId(2L);
-//        user.setFirstName("Frank");
-//        user.setLastName("Sinatra");
-//        user.setAge(82);
-//        ormManager.update(user);
+        user.setId(2L);
+        user.setFirstName("Frank");
+        user.setLastName("Sinatra");
+        user.setAge(82);
+        ormManager.update(user);
 
-//        car.setId(2L);
-//        car.setModel("Ferrari");
-//        car.setYear(2019);
-//        ormManager.update(car);
+        car.setId(2L);
+        car.setModel("Ferrari");
+        car.setYear(2019);
+        ormManager.update(car);
 
         User userFindById = ormManager.findById(3L, User.class);
         System.out.println(userFindById);
