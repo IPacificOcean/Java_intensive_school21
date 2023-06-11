@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="preProcessorToUpperImpl"
+          class="edu.school21.service.PreProcessorToUpperImpl">
+    </bean>
+
+    <bean id="preProcessorToLowerImpl"
+          class="edu.school21.service.PreProcessorToLowerImpl">
+    </bean>
+
+    <bean id="rendererErrToUpper"
+          class="edu.school21.service.RendererErrImpl">
+        <constructor-arg ref="preProcessorToUpperImpl" />
+    </bean>
+
+    <bean id="rendererErrToLower"
+          class="edu.school21.service.RendererErrImpl">
+        <constructor-arg ref="preProcessorToLowerImpl" />
+    </bean>
+
+    <bean id="rendererStdToLower"
+          class="edu.school21.service.RendererStandardImpl">
+        <constructor-arg ref="preProcessorToLowerImpl" />
+    </bean>
+
+    <bean id="rendererStdToUpper"
+          class="edu.school21.service.RendererStandardImpl">
+        <constructor-arg ref="preProcessorToUpperImpl" />
+    </bean>
+
+    <bean id="printerWithDateErrToUpper"
+          class="edu.school21.service.PrinterWithDateTimeImpl">
+        <constructor-arg ref="rendererErrToUpper" />
+    </bean>
+
+    <bean id="printerWithDateStdToUpper"
+          class="edu.school21.service.PrinterWithDateTimeImpl">
+        <constructor-arg ref="rendererStdToUpper" />
+    </bean>
+
+    <bean id="printerWithPrefixStdToUpper"
+          class="edu.school21.service.PrinterWithPrefixImpl">
+        <constructor-arg ref="rendererStdToLower" />
+        <property name="prefix" value="Prefix" />
+    </bean>
+
+    <bean id="printerWithPrefixErrToUpper"
+          class="edu.school21.service.PrinterWithPrefixImpl">
+        <constructor-arg ref="rendererErrToUpper" />
+        <property name="prefix" value="Prefix" />
+    </bean>
+
+</beans>
