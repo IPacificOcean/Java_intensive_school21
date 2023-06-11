@@ -1,79 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       https://www.springframework.org/schema/beans/spring-beans.xsd">
+       https://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="preProcessorToUpperImpl"
-          class="edu.school21.service.PreProcessorToUpperImpl">
+    <context:property-placeholder location="classpath:db.properties"/>
+
+
+    <bean id="springDataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="Url" value="${db.url}" />
     </bean>
 
-    <bean id="preProcessorToLowerImpl"
-          class="edu.school21.service.PreProcessorToLowerImpl">
+    <bean id="hicariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="jdbcUrl" value="${db.url}" />
     </bean>
 
-    <bean id="rendererErrToUpper"
-          class="edu.school21.service.RendererErrImpl">
-        <constructor-arg ref="preProcessorToUpperImpl" />
+    <bean id="hicariDataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <constructor-arg ref="hicariConfig" />
     </bean>
 
-    <bean id="rendererErrToLower"
-          class="edu.school21.service.RendererErrImpl">
-        <constructor-arg ref="preProcessorToLowerImpl" />
-    </bean>
+<!--    <bean id="uRepJdbcImpl" class="school21.spring.service.repositories.UsersRepositoryJdbcImpl">-->
+<!--        <constructor-arg ref="hicariDataSource" />-->
+<!--    </bean>-->
 
-    <bean id="rendererStdToLower"
-          class="edu.school21.service.RendererStandardImpl">
-        <constructor-arg ref="preProcessorToLowerImpl" />
-    </bean>
+<!--    <bean id="uRepJdbcTemplImpl" class="school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl">-->
+<!--        <constructor-arg ref="springDataSource" />-->
+<!--    </bean>-->
 
-    <bean id="rendererStdToUpper"
-          class="edu.school21.service.RendererStandardImpl">
-        <constructor-arg ref="preProcessorToUpperImpl" />
-    </bean>
-
-    <bean id="printerWithDateErrToUpper"
-          class="edu.school21.service.PrinterWithDateTimeImpl">
-        <constructor-arg ref="rendererErrToUpper" />
-    </bean>
-
-    <bean id="printerWithDateStdToUpper"
-          class="edu.school21.service.PrinterWithDateTimeImpl">
-        <constructor-arg ref="rendererStdToUpper" />
-    </bean>
-
-    <bean id="printerWithPrefixStdToUpper"
-          class="edu.school21.service.PrinterWithPrefixImpl">
-        <constructor-arg ref="rendererStdToUpper" />
-        <property name="prefix" value="Prefix" />
-    </bean>
-
-    <bean id="printerWithPrefixErrToUpper"
-          class="edu.school21.service.PrinterWithPrefixImpl">
-        <constructor-arg ref="rendererErrToUpper" />
-        <property name="prefix" value="Prefix" />
-    </bean>
-
-    <bean id="printerWithDateErrToLower"
-          class="edu.school21.service.PrinterWithDateTimeImpl">
-        <constructor-arg ref="rendererErrToLower" />
-    </bean>
-
-    <bean id="printerWithDateStdToLower"
-          class="edu.school21.service.PrinterWithDateTimeImpl">
-        <constructor-arg ref="rendererStdToLower" />
-    </bean>
-
-    <bean id="printerWithPrefixStdToLower"
-          class="edu.school21.service.PrinterWithPrefixImpl">
-        <constructor-arg ref="rendererStdToLower" />
-        <property name="prefix" value="Prefix" />
-    </bean>
-
-    <bean id="printerWithPrefixErrToLower"
-          class="edu.school21.service.PrinterWithPrefixImpl">
-        <constructor-arg ref="rendererErrToLower" />
-        <property name="prefix" value="Prefix" />
-    </bean>
 
 </beans>
