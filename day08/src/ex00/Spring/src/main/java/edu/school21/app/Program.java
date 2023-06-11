@@ -44,6 +44,12 @@ public class Program {
 //                context.getBean("printerWithPrefixStdToUpper", Printer.class);
 //        printerWithPrefixStdToUpper.print("Hello!");
 
+//        Printer printerWithDateErrToLower  =context.getBean("printerWithDateErrToLower", Printer.class);
+//        printerWithDateErrToLower.print("HELLO!");
+//
+//        Printer printerWithPrefixStdToLower = context.getBean("printerWithPrefixStdToLower", Printer.class);
+//        printerWithPrefixStdToLower.print("WELCOME!");
+
 
     }
 }
