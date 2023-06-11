@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 public class CreateTables {
     Connection dbConnect_;
+
     public CreateTables(DataSource dbConnect) throws SQLException {
         dbConnect_ = dbConnect.getConnection();
     }
@@ -24,12 +25,12 @@ public class CreateTables {
             String schemaQwery = schemaPath.collect(Collectors.joining(System.lineSeparator()));
             String dataQwery = dataPath.collect(Collectors.joining(System.lineSeparator()));
 
-           try (Statement statement = dbConnect_.createStatement()) {
-            statement.execute(schemaQwery);
-            statement.execute(dataQwery);
-           } catch (SQLException e) {
-               e.printStackTrace();
-           }
+            try (Statement statement = dbConnect_.createStatement()) {
+                statement.execute(schemaQwery);
+                statement.execute(dataQwery);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

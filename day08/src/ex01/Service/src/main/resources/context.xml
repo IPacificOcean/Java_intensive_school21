@@ -10,7 +10,7 @@
     <context:property-placeholder location="classpath:db.properties"/>
 
 
-    <bean id="springDataSource"
+    <bean id="driverManagerDataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="Url" value="${db.url}" />
     </bean>
@@ -28,7 +28,7 @@
 <!--    </bean>-->
 
 <!--    <bean id="uRepJdbcTemplImpl" class="school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl">-->
-<!--        <constructor-arg ref="springDataSource" />-->
+<!--        <constructor-arg ref="driverManagerDataSource" />-->
 <!--    </bean>-->
 
 
