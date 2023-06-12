@@ -27,9 +27,9 @@
         <constructor-arg ref="hicariDataSource" />
     </bean>
 
-<!--    <bean id="uRepJdbcTemplImpl" class="school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl">-->
-<!--        <constructor-arg ref="driverManagerDataSource" />-->
-<!--    </bean>-->
+    <bean id="uRepJdbcTemplImpl" class="school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl">
+        <constructor-arg ref="driverManagerDataSource" />
+    </bean>
 
 
 </beans>

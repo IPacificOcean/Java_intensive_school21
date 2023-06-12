@@ -86,7 +86,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     @Override
     public void delete(Long id) {
         String query = "delete from chat.users where id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             int countUpdate = preparedStatement.executeUpdate();
             if (countUpdate == 0) {
