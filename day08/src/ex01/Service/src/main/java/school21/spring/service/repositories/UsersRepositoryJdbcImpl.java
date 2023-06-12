@@ -14,10 +14,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UsersRepositoryJdbcImpl implements UsersRepository{
 
-    public DataSource dataSource;
+    private DataSource dataSource;
 
     @Override
-    public User fundById(Long id) {
+    public User findById(Long id) {
         String query = "select * from chat.users where id = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)){
             preparedStatement.setLong(1, id);

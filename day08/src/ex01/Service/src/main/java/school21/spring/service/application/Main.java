@@ -23,7 +23,7 @@ public class Main {
         createTablesWithSpringManagerDS.CreateTab("src/main/resources/schema.sql", "src/main/resources/data.sql");
 
         UsersRepositoryJdbcImpl usersRepositoryJdbc = context.getBean("uRepJdbcImpl", UsersRepositoryJdbcImpl.class);
-        User user = usersRepositoryJdbc.fundById(1L);
+        User user = usersRepositoryJdbc.findById(1L);
         List<User> userList = usersRepositoryJdbc.findAll();
         System.out.println(user + "\n");
         userList.forEach(System.out::println);
