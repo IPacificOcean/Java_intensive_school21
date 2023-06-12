@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CreateTables {
-    Connection dbConnect_;
+   private final Connection dbConnect_;
 
     public CreateTables(DataSource dbConnect) throws SQLException {
         dbConnect_ = dbConnect.getConnection();

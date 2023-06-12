@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
     @Override
-    public User fundBiId(Long id) {
+    public User fundById(Long id) {
         return null;
     }
 
