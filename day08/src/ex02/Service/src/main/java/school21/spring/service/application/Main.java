@@ -1,10 +1,11 @@
 package school21.spring.service.application;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import school21.spring.service.IOData.OutputStandard;
 import school21.spring.service.IOData.OutputTamplate;
 import school21.spring.service.config.ApplicationConfig;
+
+import static school21.spring.service.services.GenerateRandomPassword.generateRandomPassword;
 
 public class Main {
 
@@ -32,6 +33,9 @@ public class Main {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+        int len = 8;
+        System.out.println(generateRandomPassword(len));
 
     }
 }
