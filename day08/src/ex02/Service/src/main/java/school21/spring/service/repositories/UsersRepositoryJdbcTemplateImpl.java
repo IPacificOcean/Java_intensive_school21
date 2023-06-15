@@ -32,7 +32,7 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
         sqlParameter.addValue("id", id);
         return namedParameterJdbcTemplate.query(query,sqlParameter, (rSet) -> {
             if (rSet.next()) {
-                return new User(rSet.getLong("id"), rSet.getString("email"));
+                return new User(rSet.getLong("id"), rSet.getString("email"), rSet.getString("password"));
             }
         return null;
         });
@@ -84,7 +84,7 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
         sqlParameter.addValue("email", email);
         return namedParameterJdbcTemplate.query(query,sqlParameter, (rSet) -> {
             if (rSet.next()) {
-                return Optional.of(new User(rSet.getLong("id"), rSet.getString("email")));
+                return Optional.of(new User(rSet.getLong("id"), rSet.getString("email"), rSet.getString("password")));
             }
         return Optional.empty();
 

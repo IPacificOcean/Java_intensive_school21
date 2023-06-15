@@ -23,7 +23,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
             preparedStatement.setLong(1, id);
             ResultSet result = preparedStatement.executeQuery();
             if (result.next()) {
-               return new User(result.getLong(1), result.getString(2));
+               return new User(result.getLong(1), result.getString(2), result.getString(3));
             }
 
         } catch (SQLException e) {
@@ -39,7 +39,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)){
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
-                userList.add(new User(result.getLong(1), result.getString(2)));
+                userList.add(new User(result.getLong(1), result.getString(2), result.getString(3)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
             preparedStatement.setString(1, email);
             ResultSet result = preparedStatement.executeQuery();
             if (result.next()) {
-                return Optional.of(new User(result.getLong(1), result.getString(2)));
+                return Optional.of(new User(result.getLong(1), result.getString(2), result.getString(3)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
