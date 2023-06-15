@@ -17,3 +17,4 @@ public class GenerateRandomPassword {
                 .collect(Collectors.joining());
     }
 }
+
