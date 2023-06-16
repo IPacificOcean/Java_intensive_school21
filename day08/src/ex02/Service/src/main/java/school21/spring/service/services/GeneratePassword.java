@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class GenerateRandomPassword {
+public class GeneratePassword {
 
     public static String generateRandomPassword(int len) {
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

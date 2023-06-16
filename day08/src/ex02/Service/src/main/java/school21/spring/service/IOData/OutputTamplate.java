@@ -20,39 +20,9 @@ public class OutputTamplate {
 
     public void output () throws SQLException {
 
-        DataSource managerDS = context.getBean("springManagerDataSource", DataSource.class);
+//        DataSource managerDS = context.getBean("springManagerDataSource", DataSource.class);
         CreateTables createTablesWithSpringManagerDS = context.getBean("createTables", CreateTables.class);
         createTablesWithSpringManagerDS.CreateTab();
-
-//        UsersRepositoryJdbcTemplateImpl usersRepositoryJdbcTempl = context.getBean("uRepJdbcTemplImpl", UsersRepositoryJdbcTemplateImpl.class);
-//
-//        System.out.println("findById(1L):");
-//        User user = usersRepositoryJdbcTempl.findById(1L);
-//        System.out.println(user + "\n");
-//
-//        System.out.println("findAll():");
-//        List<User> userList = usersRepositoryJdbcTempl.findAll();
-//        userList.forEach(System.out::println);
-//        System.out.println();
-//
-//        System.out.println("save():");
-//        User userForSave = new User();
-//        userForSave.setEmail("someEmailNew@save.com");
-//        usersRepositoryJdbcTempl.save(userForSave);
-//        System.out.println(userForSave);
-//        System.out.println();
-//
-//        System.out.println("update(2, \"update@ya.ru\"):");
-//        User userForUpdate = new User(2, "update@ya.ru");
-//        usersRepositoryJdbcTempl.update(userForUpdate);
-//        user = usersRepositoryJdbcTempl.findById(2L);
-//        System.out.println(user + "\n");
-//
-//        usersRepositoryJdbcTempl.delete(1L);
-//
-//        System.out.println("findByEmail(\"someEmail3@yandex.ru\"):");
-//        Optional<User> userFindByEmail = usersRepositoryJdbcTempl.findByEmail("someEmail3@yandex.ru");
-//        System.out.println(userFindByEmail.get());
 
     }
 

@@ -6,9 +6,13 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class User {
-    long id;
+    Long id;
     String email;
     String password;
     public User(){}
 
+//    public User(String email, String password) {
+//        this.email = email;
+//        this.password = password;
+//    }
 }

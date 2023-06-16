@@ -1,11 +1,14 @@
 package school21.spring.service.repositories;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 import school21.spring.service.models.User;
 
 import javax.sql.DataSource;
@@ -15,12 +18,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
-
+@Component
+public class UsersRepositoryJdbcTemplateImpl implements UsersRepository {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public UsersRepositoryJdbcTemplateImpl(DataSource dataSource) {
+    @Autowired
+    public UsersRepositoryJdbcTemplateImpl(@Qualifier("springManagerDataSource") DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -30,27 +34,28 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
         String query = "select * from chat.users where id = :id";
         MapSqlParameterSource sqlParameter = new MapSqlParameterSource();
         sqlParameter.addValue("id", id);
-        return namedParameterJdbcTemplate.query(query,sqlParameter, (rSet) -> {
+        return namedParameterJdbcTemplate.query(query, sqlParameter, (rSet) -> {
             if (rSet.next()) {
                 return new User(rSet.getLong("id"), rSet.getString("email"), rSet.getString("password"));
             }
-        return null;
+            return null;
         });
     }
 
     @Override
     public List<User> findAll() {
         String query = "select * from chat.users";
-     return jdbcTemplate.query(query,new BeanPropertyRowMapper<>(User.class));
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class));
     }
 
     @Override
     public void save(User entity) {
-        String query = "insert into chat.users (email) values (?)";
+        String query = "insert into chat.users (email, password) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, entity.getEmail());
+            preparedStatement.setString(2, entity.getPassword());
             return preparedStatement;
         }, keyHolder);
         entity.setId((Long) Objects.requireNonNull(keyHolder.getKeys()).get("id"));
@@ -58,9 +63,10 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
 
     @Override
     public void update(User entity) {
-        String query = "update chat.users set email = :email where id = :id";
+        String query = "update chat.users set email = :email, password = :password where id = :id";
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("email", entity.getEmail());
+        parameterSource.addValue("password", entity.getPassword());
         parameterSource.addValue("id", entity.getId());
         if (namedParameterJdbcTemplate.update(query, parameterSource) == 0) {
             throw new IllegalArgumentException("Couldn't update");
@@ -82,11 +88,11 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
         String query = "select * from chat.users where email = :email";
         MapSqlParameterSource sqlParameter = new MapSqlParameterSource();
         sqlParameter.addValue("email", email);
-        return namedParameterJdbcTemplate.query(query,sqlParameter, (rSet) -> {
+        return namedParameterJdbcTemplate.query(query, sqlParameter, (rSet) -> {
             if (rSet.next()) {
                 return Optional.of(new User(rSet.getLong("id"), rSet.getString("email"), rSet.getString("password")));
             }
-        return Optional.empty();
+            return Optional.empty();
 
         });
 

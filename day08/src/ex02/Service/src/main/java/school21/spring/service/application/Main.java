@@ -4,38 +4,24 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import school21.spring.service.IOData.OutputStandard;
 import school21.spring.service.IOData.OutputTamplate;
 import school21.spring.service.config.ApplicationConfig;
+import school21.spring.service.repositories.CreateTables;
+import school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl;
+import school21.spring.service.services.UserService;
 
-import static school21.spring.service.services.GenerateRandomPassword.generateRandomPassword;
+import static school21.spring.service.services.GeneratePassword.generateRandomPassword;
 
 public class Main {
 
     public static void main(String[] args) {
-//            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 
-            OutputStandard outputStandard = new OutputStandard(context);
-            OutputTamplate outputTamplate = new OutputTamplate(context);
-
-            try {
-                System.out.println("_______Standard_________");
-                outputStandard.output();
-                System.out.println();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        CreateTables createTablesWithHikari = context.getBean("createTables", CreateTables.class);
+        createTablesWithHikari.CreateTab();
 
 
-            try {
-                System.out.println("_______Template_________");
-                outputTamplate.output();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        int len = 8;
-        System.out.println(generateRandomPassword(len));
+        UserService userService = context.getBean("userServiceImpl", UserService.class);
+        userService.signUp("someNewEmail@yandex.ru");
+        context.getBean("usersRepositoryJdbcTemplateImpl", UsersRepositoryJdbcTemplateImpl.class).findAll().forEach(System.out::println);
 
     }
 }

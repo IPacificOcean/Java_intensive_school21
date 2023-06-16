@@ -1,6 +1,9 @@
 package school21.spring.service.repositories;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import school21.spring.service.models.User;
 
 import javax.sql.DataSource;
@@ -11,19 +14,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-@AllArgsConstructor
-public class UsersRepositoryJdbcImpl implements UsersRepository{
 
-    private DataSource dataSource;
+@Component
+public class UsersRepositoryJdbcImpl implements UsersRepository {
+
+
+    private final DataSource dataSource;
+    @Autowired
+    public UsersRepositoryJdbcImpl(@Qualifier("hikariDataSource")DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public User findById(Long id) {
         String query = "select * from chat.users where id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)){
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet result = preparedStatement.executeQuery();
             if (result.next()) {
-               return new User(result.getLong(1), result.getString(2), result.getString(3));
+                return new User(result.getLong(1), result.getString(2), result.getString(3));
             }
 
         } catch (SQLException e) {
@@ -36,7 +45,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     public List<User> findAll() {
         String query = "select * from chat.users";
         List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)){
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
                 userList.add(new User(result.getLong(1), result.getString(2), result.getString(3)));
@@ -50,9 +59,10 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
 
     @Override
     public void save(User entity) {
-        String query = "insert into chat.users (email) values (?)";
+        String query = "insert into chat.users (email, password) values (?, ?)";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, entity.getEmail());
+            preparedStatement.setString(2, entity.getPassword());
             int countUpdate = preparedStatement.executeUpdate();
             if (countUpdate != 0) {
                 ResultSet returnedId = preparedStatement.getGeneratedKeys();
@@ -70,10 +80,11 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
 
     @Override
     public void update(User entity) {
-        String query = "update chat.users set email = ? where id = ?";
+        String query = "update chat.users set email = ?, password = ? where id = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, entity.getEmail());
-            preparedStatement.setLong(2, entity.getId());
+            preparedStatement.setString(2, entity.getPassword());
+            preparedStatement.setLong(3, entity.getId());
             int countUpdate = preparedStatement.executeUpdate();
             if (countUpdate == 0) {
                 throw new IllegalArgumentException("Couldn't update");
@@ -101,7 +112,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     @Override
     public Optional<User> findByEmail(String email) {
         String query = "select * from chat.users where email = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)){
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, email);
             ResultSet result = preparedStatement.executeQuery();
             if (result.next()) {
