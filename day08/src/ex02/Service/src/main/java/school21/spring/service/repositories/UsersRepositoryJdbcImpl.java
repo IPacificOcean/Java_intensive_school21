@@ -1,6 +1,5 @@
 package school21.spring.service.repositories;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -17,13 +16,9 @@ import java.util.Optional;
 
 @Component
 public class UsersRepositoryJdbcImpl implements UsersRepository {
-
-
-    private final DataSource dataSource;
     @Autowired
-    public UsersRepositoryJdbcImpl(@Qualifier("hikariDataSource")DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    @Qualifier("hikariDataSource")
+    private DataSource dataSource;
 
     @Override
     public User findById(Long id) {

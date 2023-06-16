@@ -12,10 +12,6 @@ public class UserServiceImpl implements UserService {
     @Qualifier("usersRepositoryJdbcTemplateImpl")
     private UsersRepository usersRepository;
 
-//    @Autowired
-//    public UserServiceImpl(@Qualifier("usersRepositoryJdbcTemplateImpl") UsersRepository usersRepositiry) {
-//        this.usersRepository = usersRepositiry;
-//    }
 
     @Override
     public String signUp(String email) {
