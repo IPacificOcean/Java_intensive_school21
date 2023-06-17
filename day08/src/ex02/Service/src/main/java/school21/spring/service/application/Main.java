@@ -16,7 +16,7 @@ public class Main {
 
 
         UserService userService = context.getBean("userServiceImpl", UserService.class);
-        userService.signUp("some1NewEmail@yandex.ru");
+        userService.signUp("someNewEmail@yandex.ru");
         context.getBean("usersRepositoryJdbcTemplateImpl", UsersRepositoryJdbcTemplateImpl.class).findAll().forEach(System.out::println);
 
     }
