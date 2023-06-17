@@ -4,7 +4,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import school21.spring.service.config.ApplicationConfig;
 import school21.spring.service.repositories.CreateTables;
 import school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl;
-import school21.spring.service.services.UserService;
+import school21.spring.service.services.UsersService;
 
 public class Main {
 
@@ -15,7 +15,7 @@ public class Main {
         createTablesWithHikari.CreateTab();
 
 
-        UserService userService = context.getBean("userServiceImpl", UserService.class);
+        UsersService userService = context.getBean("usersServiceImpl", UsersService.class);
         userService.signUp("someNewEmail@yandex.ru");
         context.getBean("usersRepositoryJdbcTemplateImpl", UsersRepositoryJdbcTemplateImpl.class).findAll().forEach(System.out::println);
 

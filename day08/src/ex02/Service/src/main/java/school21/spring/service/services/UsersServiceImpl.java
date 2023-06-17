@@ -1,5 +1,6 @@
 package school21.spring.service.services;
 
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -7,7 +8,8 @@ import school21.spring.service.models.User;
 import school21.spring.service.repositories.UsersRepository;
 
 @Component
-public class UserServiceImpl implements UserService {
+@Setter
+public class UsersServiceImpl implements UsersService {
     @Autowired
     @Qualifier("usersRepositoryJdbcTemplateImpl")
     private UsersRepository usersRepository;
