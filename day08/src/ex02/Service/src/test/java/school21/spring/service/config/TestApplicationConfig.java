@@ -1,8 +1,8 @@
 package school21.spring.service.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -16,7 +16,7 @@ import school21.spring.service.services.UsersServiceImpl;
 import javax.sql.DataSource;
 
 @Configuration
-//@ComponentScan("school21.spring.service")
+@ComponentScan("school21.spring.service")
 @PropertySource("classpath:db.properties")
 public class TestApplicationConfig {
     @Value("${db.schema}")
@@ -34,8 +34,7 @@ public class TestApplicationConfig {
 
     @Bean
     public UsersRepository usersRepositoryJdbcImpl() {
-        UsersRepositoryJdbcImpl usersRepositoryJdbc = new UsersRepositoryJdbcImpl(hsqlDataSource());
-        return usersRepositoryJdbc;
+        return new UsersRepositoryJdbcImpl(hsqlDataSource());
     }
 
     @Bean

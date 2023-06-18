@@ -12,7 +12,7 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 
         CreateTables createTablesWithHikari = context.getBean("createTables", CreateTables.class);
-        createTablesWithHikari.CreateTab();
+        createTablesWithHikari.createTab();
 
 
         UsersService userService = context.getBean("usersServiceImpl", UsersService.class);

@@ -26,11 +26,8 @@ public class CreateTables {
     @Qualifier("hikariDataSource")
     private DataSource dataSource;
 
-//    public CreateTables(DataSource dbConnect) throws SQLException {
-//        dataSource = dbConnect;
-//    }
 
-    public void CreateTab() {
+    public void createTab() {
         try (Stream<String> schemaPath = Files.lines(Paths.get(schema).toAbsolutePath().normalize());
              Stream<String> dataPath = Files.lines(Paths.get(data).toAbsolutePath().normalize())
         ) {
